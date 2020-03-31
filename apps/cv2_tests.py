@@ -47,7 +47,7 @@ def getThresholdImgs(img):
     return th_R, th_G, th_B
 
 
-def printImg(img, factor):
+def printImg(img, factor, time):
     '''
     Prints an image and resize it by the factor
     '''
@@ -63,7 +63,7 @@ def printImg(img, factor):
     imgr = cv2.resize(img, (y, x))
 
     cv2.imshow('Training_01', imgr)
-    cv2.waitKey(6000)
+    cv2.waitKey(time)
     cv2.destroyAllWindows()
 
 
@@ -72,6 +72,7 @@ def isInside(out1, out2, in1, in2):
     x = out1[0] < in1[0] < in2[0] < out2[0]
     y = out1[1] < in1[1] < in2[1] < out2[1]
     return x and y
+
 
 def segmentate(img):
     mser = cv2.MSER_create()
@@ -94,6 +95,12 @@ def segmentate(img):
 
     return [i for i in rects if i not in insideRects]
 
+
+def extractSubmatrix(matrix, upperPoint, downerPoint):
+    return np.array([ x[upperPoint[0]:downerPoint[0]]
+            for x in matrix[upperPoint[1]:downerPoint[1]]])
+
+
 def main(img_path):
 
     img = cv2.imread(img_path)
@@ -104,12 +111,9 @@ def main(img_path):
 
     for (x, y, w, h) in rects:
         cv2.rectangle(th_R, (x, y), (x+w, y+h), color=(128, 128, 0), thickness=4)
-
-    printImg(th_R, 2)
-
-    # edges = cv2.Canny(th_R, 20, 30)
-    #
-    # printImg(edges, 0)
+        # printImg(extractSubmatrix(th_R, (x, y), (x+w, y+h)), 1, 1000)
+        
+    printImg(th_R, 3, 6000)
 
 
 if __name__ == '__main__':
