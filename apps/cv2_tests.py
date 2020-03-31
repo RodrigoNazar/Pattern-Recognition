@@ -67,6 +67,18 @@ def printImg(img, factor):
     cv.destroyAllWindows()
 
 
+def isInside(out1, out2, in1, in2):
+
+    x = out1[0] < in1[0] < in2[0] < out2[0]
+    y = out1[1] < in1[1] < in2[1] < out2[1]
+
+    # print(f'\n out1, out2, in1, in2: {out1}, {out2}, {in1}, {in2}')
+    # print(f'x: {out1[0]} < {in1[0]} < {in2[0]} < {out2[0]} {x}')
+    # print(f'y: {out1[1]} < {in1[1]} < {in2[1]} < {out2[1]} {y}')
+
+    return x and y
+
+
 def main(img_path):
     img = cv.imread(img_path)
     h, w = img.shape[:2]
@@ -82,7 +94,18 @@ def main(img_path):
 
     regions, rects = mser.detectRegions(th_R)
 
+    rects = [i for i in rects.tolist() if (i[0] != 1 and i[1] != 1)
+                                      and (i[0] != 0 and i[1] != 0)]
+    insideRects = []
+
     # With the rects you can e.g. crop the letters
+    for (x1, y1, w1, h1) in rects:
+        for (x2, y2, w2, h2) in rects:
+            if isInside((x1, y1), (x1+w1, y1+h1), (x2, y2), (x2+w2, y2+h2)):
+                insideRects.append([x2, y2, w2, h2])
+
+    rects = [i for i in rects if i not in insideRects]
+
     for (x, y, w, h) in rects:
         cv.rectangle(th_R, (x, y), (x+w, y+h), color=(128, 128, 0), thickness=4)
 
