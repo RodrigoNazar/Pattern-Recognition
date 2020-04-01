@@ -24,7 +24,7 @@ def centroid(img):
 
 
 def uMomentRS(img, r, s):
-    x_cent, y_cent = centroid(img, r, s)
+    x_cent, y_cent = centroid(img)
 
     whitePixels = np.argwhere(img == 255)
 
@@ -59,11 +59,11 @@ def huMoments(img):
     phi2 = (eta20 - eta02)**2 + 4*eta11**2
     phi3 = (eta30 - 3*eta12)**2 + (3*eta21 - eta03)**2
     phi4 = (eta30 + eta12)**2 + (eta21 + eta03)**2
-    phi5 = (eta30 - 3*eta12)*(eta30 + eta12)*((eta30 + eta12)**2 - 3*(eta21 + eta03)**2)
+    phi5 = (eta30 - 3*eta12)*(eta30 + eta12)*((eta30 + eta12)**2 - 3*(eta21 + eta03)**2) \
             + (3*eta21 - eta03)*(eta21 + eta03)*(3*(eta30 + eta12)**2 - (eta21 + eta03)**2)
-    phi6 = (eta20 - eta02)*((eta30 + eta12)**2 - (eta21 + eta03)**2) +
+    phi6 = (eta20 - eta02)*((eta30 + eta12)**2 - (eta21 + eta03)**2) + \
             4*eta11*(eta30 + eta12)*(eta21 + eta03)
-    phi7 = (3*eta21 - eta03)*(eta30 + eta12)*((eta30 + eta12)**2 - 3*(eta21 + eta03)**2)
+    phi7 = (3*eta21 - eta03)*(eta30 + eta12)*((eta30 + eta12)**2 - 3*(eta21 + eta03)**2) \
             - (eta30 - 3*eta12)*(eta21 + eta03)*(3*(eta30 + eta12)**2 - (eta21 + eta03)**2)
 
     return phi1, phi2, phi3, phi4, phi5, phi6, phi7
