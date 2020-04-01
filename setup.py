@@ -7,5 +7,5 @@ setup(
                 ' de Patrones',
     author='Rodrigo Nazar Meier',
     author_email='rnazar@uc.cl',
-    packages=['apps']
+    packages=['apps', 'utils']
 )

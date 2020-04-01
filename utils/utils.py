@@ -21,11 +21,11 @@ plt.title('B Image'), plt.xticks([]), plt.yticks([])
 plt.show()
 '''
 
-
 import cv2
 from matplotlib import pyplot as plt
 import numpy as np
 import argparse
+import json
 
 
 def getThresholdImgs(img):
@@ -87,7 +87,7 @@ def segmentate(img):
                                           and (i[0] != 0 and i[1] != 0)]
     insideRects = []
 
-    # With the rects you can e.g. crop the letters
+    # Filters rects that are inside of others
     for (x1, y1, w1, h1) in rects:
         for (x2, y2, w2, h2) in rects:
             if isInside((x1, y1), (x1+w1, y1+h1), (x2, y2), (x2+w2, y2+h2)):
@@ -99,26 +99,3 @@ def segmentate(img):
 def extractSubmatrix(matrix, upperPoint, downerPoint):
     return np.array([ x[upperPoint[0]:downerPoint[0]]
             for x in matrix[upperPoint[1]:downerPoint[1]]])
-
-
-def main(img_path):
-
-    img = cv2.imread(img_path)
-
-    th_R, th_G, th_B = getThresholdImgs(img)
-
-    rects = segmentate(th_R)
-
-    for (x, y, w, h) in rects:
-        cv2.rectangle(th_R, (x, y), (x+w, y+h), color=(128, 128, 0), thickness=4)
-        # printImg(extractSubmatrix(th_R, (x, y), (x+w, y+h)), 1, 1000)
-        
-    printImg(th_R, 3, 6000)
-
-
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--img_path', type=str, required=True,
-                        help="Dirección de la imagen a procesar")
-    cmd_args = parser.parse_args()
-    main(cmd_args.img_path)
