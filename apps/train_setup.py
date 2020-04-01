@@ -11,7 +11,7 @@ from utils.utils import (getThresholdImgs, printImg, isInside, segmentate,
 import utils.huMoments as hu
 
 
-def setupTrainImg(img_path):
+def letterClassifier(img_path):
 
     print('\nObteniendo características del archivo', img_path, '...')
 
@@ -62,11 +62,19 @@ def setupTrainImg(img_path):
         json.dump(data, json_file, indent=2)
 
 
-def train_setup(*args):
+def setupTrainingImgs(*args):
+
+    print('\nRevisando las características de cada imágen...')
+    data_files = os.listdir('data/')
 
     # Se obtienen las características de las imágenes
     for pic in args:
-        setupTrainImg(pic)
+        data_path = pic[4:-4] + '_data.json'
+        # Revisamos la información que ya está
+        if data_path not in data_files:
+            letterClassifier(pic)
+        else:
+            print(f'La imagen {pic} ya tiene sus características!')
 
 
 
