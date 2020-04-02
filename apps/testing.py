@@ -25,6 +25,9 @@ def knn(list, neighbors):
 
 
 def getDataFiles():
+
+    print('\n2) Ejecutando el algoritmo de reconocimiento de caracteres...')
+
     # Obtenemos las features de las imágenes de training
     training_files = [file for file in os.listdir('data/') if 'Training' in file]
 
@@ -50,7 +53,7 @@ def getDataFiles():
     return training_letters, testing_data
 
 
-def classifyTesting():
+def testing():
 
     training_letters, testing_data = getDataFiles()
 
@@ -91,19 +94,6 @@ def classifyTesting():
     # Ahora, tenemos un objeto JSON con cada letra del test con su respectivo
     # representante obtenido por knn de 5 vecinos
     return results
-
-
-def getStatistics(results):
-    pass
-
-
-def testing():
-
-    print('\n2) Realizando el test de la imagen de testing...')
-
-    results = classifyTesting()
-
-    print(json.dumps(results, indent=2))
 
 
 if __name__ == '__main__':
