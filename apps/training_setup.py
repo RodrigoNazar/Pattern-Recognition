@@ -30,6 +30,8 @@ def letterClassifier(img_path):
         'objects': []
     }
 
+    options = ['A', 'S', 'D', 'F', 'G']
+
     # Comenzamos a clasificar cada letra
     for (x, y, w, h) in rects:
 
@@ -38,7 +40,15 @@ def letterClassifier(img_path):
         printImg(current_img, 1, 200)
 
         # El usuario indica que letra es
-        letter = input('\n¿Que letra era esa?\n\t> ')
+        letter = input('\n¿Que letra era esa? (Si no la viste apreta ENTER)\n\t> ')
+
+        while letter not in options:
+            print('La letra ingresada no está en las opciones (A, S, D, F, G)')
+            print('Te muestro de nuevo la imagen')
+
+            printImg(current_img, 1, 200)
+
+            letter = input('\n¿Que letra era esa?\n\t> ')
 
         # Se calculan los momentos de Hu y se agrega a los datos
         phi1, phi2, phi3, phi4, phi5, phi6, phi7 = hu.huMoments(current_img)
@@ -67,7 +77,7 @@ def letterClassifier(img_path):
 
 def setupTrainingImgs(*pics):
 
-    print('\nRevisando las características de cada imágen...')
+    print('\n1) Revisando las características de cada imágen...')
     data_files = os.listdir('data/')
 
     # Se obtienen las características de las imágenes
@@ -77,7 +87,7 @@ def setupTrainingImgs(*pics):
         if data_path not in data_files:
             letterClassifier(pic)
         else:
-            print(f'La imagen {pic} ya tiene sus características!')
+            print(f'\tLa imagen {pic} ya tiene sus características!')
 
 
 

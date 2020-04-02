@@ -1,5 +1,5 @@
 
-from apps.train_setup import setupTrainingImgs
+from apps.training_setup import setupTrainingImgs
 
 
 def main():
