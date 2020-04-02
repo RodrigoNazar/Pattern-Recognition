@@ -1,11 +1,12 @@
 
-from apps.training_setup import setupTrainingImgs
+from apps.feature_setup import setupImgsFeatures
 
 
 def main():
 
-    # Obtenemos las características de las imágenes de training
-    setupTrainingImgs('img/Training_01.png', 'img/Training_02.png')
+    # Obtenemos las características de las imágenes otorgadas
+    setupImgsFeatures('img/Training_01.png', 'img/Training_02.png',
+                      'img/Testing.png')
 
 
 if __name__ == '__main__':

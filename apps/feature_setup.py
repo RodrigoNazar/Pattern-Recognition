@@ -75,7 +75,7 @@ def letterClassifier(img_path):
         json.dump(data, json_file, indent=2)
 
 
-def setupTrainingImgs(*pics):
+def setupImgsFeatures(*pics):
 
     print('\n1) Revisando las características de cada imágen...')
     data_files = os.listdir('data/')
@@ -93,9 +93,11 @@ def setupTrainingImgs(*pics):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--t01_path', type=str, default='img/Training_01.png',
+    parser.add_argument('--tr1_path', type=str, default='img/Training_01.png',
                         help="Dirección de la imagen a procesar")
-    parser.add_argument('--t02_path', type=str, default='img/Training_02.png',
+    parser.add_argument('--tr2_path', type=str, default='img/Training_02.png',
+                        help="Dirección de la imagen a procesar")
+    parser.add_argument('--test1_path', type=str, default='img/Testing.png',
                         help="Dirección de la imagen a procesar")
     cmd_args = parser.parse_args()
-    train_setup(cmd_args.t01_path, cmd_args.t02_path)
+    train_setup(cmd_args.t01_path, cmd_args.t02_path, cmd_args.test1_path)
