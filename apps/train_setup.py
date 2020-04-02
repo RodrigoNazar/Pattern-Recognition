@@ -17,10 +17,12 @@ def letterClassifier(img_path):
 
     img =  cv2.imread(img_path)
 
+    # Obtenemos los umbrales de cada canal
     th_R, th_G, th_B = getThresholdImgs(img)
 
     # img = 255*((th_R > 127) | (th_G > 127) | (th_B > 127))
 
+    # Segmentamos cada letra de la imagen
     rects = segmentate(th_R)
 
     data = {
@@ -28,6 +30,7 @@ def letterClassifier(img_path):
         'objects': []
     }
 
+    # Comenzamos a clasificar cada letra
     for (x, y, w, h) in rects:
 
         # Se despliega la letra
@@ -62,13 +65,13 @@ def letterClassifier(img_path):
         json.dump(data, json_file, indent=2)
 
 
-def setupTrainingImgs(*args):
+def setupTrainingImgs(*pics):
 
     print('\nRevisando las características de cada imágen...')
     data_files = os.listdir('data/')
 
     # Se obtienen las características de las imágenes
-    for pic in args:
+    for pic in pics:
         data_path = pic[4:-4] + '_data.json'
         # Revisamos la información que ya está
         if data_path not in data_files:
