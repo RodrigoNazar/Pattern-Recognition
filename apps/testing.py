@@ -23,10 +23,8 @@ def knn(list, neighbors):
 
     return rep
 
-def testImages():
 
-    print('\n2) Realizando el test de la imagen de testing...')
-
+def getDataFiles():
     # Obtenemos las features de las imágenes de training
     training_files = [file for file in os.listdir('data/') if 'Training' in file]
 
@@ -47,6 +45,14 @@ def testImages():
     for file in testing_files:
         with open('data/' + file, 'r') as json_file:
             testing_data.append(json.load(json_file))
+
+
+    return training_letters, testing_data
+
+
+def classifyTesting():
+
+    training_letters, testing_data = getDataFiles()
 
     # Momentos de hu que se consideran en el experimento
     huMomentsUsed = ['phi1', 'phi2', 'phi3', 'phi4', 'phi5', 'phi6', 'phi7']
@@ -84,8 +90,21 @@ def testImages():
 
     # Ahora, tenemos un objeto JSON con cada letra del test con su respectivo
     # representante obtenido por knn de 5 vecinos
+    return results
+
+
+def getStatistics(results):
+    pass
+
+
+def testing():
+
+    print('\n2) Realizando el test de la imagen de testing...')
+
+    results = classifyTesting()
 
     print(json.dumps(results, indent=2))
 
+
 if __name__ == '__main__':
-    testImages()
+    testing()
