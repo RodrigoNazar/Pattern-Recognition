@@ -11,7 +11,7 @@ import itertools
 from apps.statistics import successPercentage
 
 
-def huDiference(hu1, hu2, moments):
+def huDifference(hu1, hu2, moments):
     diff = [(hu1[moment], hu2[moment]) for moment in moments]
 
     return sum(map(lambda x: (x[0] - x[1])**2, diff))**.5
@@ -86,7 +86,7 @@ def testing(huMomentsUsed):
             for tLetter in training_data:
                 # Hacemos la comparación con cada letra del training
                 for training_json in training_data[tLetter]:
-                    difference = huDiference(testing_json['data'],
+                    difference = huDifference(testing_json['data'],
                                    training_json['data'],
                                    huMomentsUsed)
 
@@ -137,4 +137,4 @@ def huCombinationTest():
 
 
 if __name__ == '__main__':
-    testing()
+    testing(('phi1', 'phi2', 'phi3', 'phi4', 'phi5', 'phi6', 'phi7'))

@@ -135,7 +135,6 @@ def setupImgsFeatures(*pics):
             print(f'\tLas imágenes de {pic} ya tienen sus características!')
 
 
-
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--tr1_path', type=str, default='img/Training_01.png',

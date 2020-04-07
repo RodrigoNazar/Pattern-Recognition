@@ -3,7 +3,7 @@ import numpy as np
 from utils.utils import printImg
 
 def momentRS(img, r, s):
-    whitePixels = np.argwhere(img == 255)
+    whitePixels = np.argwhere(img == np.amax(img))
 
     m = 0
 
