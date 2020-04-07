@@ -23,8 +23,6 @@ def saveIndividualLetter(img_path):
     # Obtenemos los umbrales de cada canal
     th_R, th_G, th_B = getThresholdImgs(img)
 
-    # img = 255*((th_R > 127) | (th_G > 127) | (th_B > 127))
-
     # Segmentamos cada letra de la imagen
     rects = segmentate(th_R)
 
