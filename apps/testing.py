@@ -15,7 +15,7 @@ def huDiference(hu1, hu2, moments):
 
 
 def knn(list, neighbors):
-    list = sorted(list, key=lambda i: i['diff'])[:neighbors]
+    list = sorted(list, key=lambda i: i['difference'])[:neighbors]
     rep = [letter['letter'] for letter in list]
     rep = {rep.count(i): i for i in rep}
     maximum = max([i for i in rep.keys()])
@@ -26,70 +26,87 @@ def knn(list, neighbors):
 
 def getDataFiles():
 
-    print('\n2) Ejecutando el algoritmo de reconocimiento de caracteres...')
-
     # Obtenemos las features de las imágenes de training
-    training_files = [file for file in os.listdir('data/') if 'Training' in file]
+    training_file = [file for file in os.listdir('data/') if 'training' in file][0]
 
-    training_data = []
-    for file in training_files:
-        with open('data/' + file, 'r') as json_file:
-            training_data.append(json.load(json_file))
-
-    training_letters = []
-    for data in training_data:
-        for object in data['objects']:
-            training_letters.append(object)
+    with open(f'data/{training_file}', 'r') as json_file:
+        training_data = json.load(json_file)
 
     # Obtenemos las features de las imágenes de testing
-    testing_files = [file for file in os.listdir('data/') if 'Testing' in file]
+    testing_file = [file for file in os.listdir('data/') if 'testing' in file][0]
 
-    testing_data = []
-    for file in testing_files:
-        with open('data/' + file, 'r') as json_file:
-            testing_data.append(json.load(json_file))
+    with open(f'data/{testing_file}', 'r') as json_file:
+        testing_data = json.load(json_file)
 
-
-    return training_letters, testing_data
+    return training_data, testing_data
 
 
 def testing():
 
-    training_letters, testing_data = getDataFiles()
+    print('\n3) Ejecutando el algoritmo de reconocimiento de caracteres...')
+
+    training_data, testing_data = getDataFiles()
 
     # Momentos de hu que se consideran en el experimento
-    huMomentsUsed = ['phi1', 'phi2', 'phi3', 'phi4', 'phi5', 'phi6', 'phi7']
+    huMomentsUsed = ('phi1', 'phi2', 'phi3', 'phi4', 'phi5', 'phi6', 'phi7')
 
     results = []
-    # Recorremos los archivos de testing
-    for file in testing_data:
-        # Leemos cada letra dentro de esta imagen
-        for letter in file['objects']:
-            selected_letters = []
-            # Hacemos la comparación con cada letra del training
-            for training_letter in training_letters:
-                # Si la diferencia euclidiana de los datos es menor que la
-                # tolerancia, entonces lo agregamos
 
-                difference = huDiference(letter['hu-moments'],
-                               training_letter['hu-moments'],
-                               huMomentsUsed)
+    '''
+    En los siguientes for tendremos:
+    letter in ('A', 'S', 'D', 'F', 'G')
+        -> La respuesta del test
 
-                selected_letter = {
-                    'letter': training_letter['letter'],
-                    'diff': difference
-                }
-                selected_letters.append(selected_letter)
+    testing_json json
+        -> Objeto json con la data de imagen testing que estamos
+           analizando. Tiene la forma {
+                'file': 'img/testing/G/G_12.png',
+                'data': {'phi1': 0.24402917149737346,
+                         'phi2': 4.271809180755498e-05,
+                         'phi3': 0.00011388421406912314,
+                         'phi4': 0.00012192698237651798,
+                         'phi5': 5.537608079641481e-09,
+                         'phi6': 1.415076616137105e-07,
+                         'phi7': -1.3257459603662303e-08}
+           }
+
+
+    tLetter in ('A', 'S', 'D', 'F', 'G')
+        -> Itera en las posibles letras de la solucion
+
+    training_json json
+        -> Objeto json con la data de imagen training que
+           estamos analizando. Tiene la misma forma que testing_json.
+    '''
+    for letter in testing_data:
+        for testing_json in testing_data[letter]:
+            result_object = {
+                'test_file': testing_json['file'],
+                'answer': letter
+            }
+            differences = []
+            for tLetter in training_data:
+                # Hacemos la comparación con cada letra del training
+                for training_json in training_data[tLetter]:
+                    difference = huDiference(testing_json['data'],
+                                   training_json['data'],
+                                   huMomentsUsed)
+
+                    dif_data = {
+                        'letter': tLetter,
+                        'difference': difference
+                    }
+
+                    differences.append(dif_data)
+
+
 
             # Obtenemos el resultado consultando a los 5 vecinos más cercanos
-            result = knn(selected_letters, 5)
+            result = knn(differences, 5)
 
-            result = {
-                'test_letter': letter,
-                'result': result
-            }
+            result_object['output'] = result
 
-            results.append(result)
+            results.append(result_object)
 
     # Ahora, tenemos un objeto JSON con cada letra del test con su respectivo
     # representante obtenido por knn de 5 vecinos

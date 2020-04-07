@@ -14,7 +14,7 @@ def main():
     results = testing()
 
     # Obtenemos las estadísticas del método
-    # getStatistics(results)
+    getStatistics(results)
 
 
 

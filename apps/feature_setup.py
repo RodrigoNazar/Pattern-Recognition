@@ -28,7 +28,7 @@ def saveIndividualLetter(img_path):
     # Segmentamos cada letra de la imagen
     rects = segmentate(th_R)
 
-    options = ['A', 'S', 'D', 'F', 'G', 'X']
+    options = ('A', 'S', 'D', 'F', 'G', 'X')
 
     # Comenzamos a clasificar cada letra
     for (x, y, w, h) in rects:
@@ -75,14 +75,20 @@ def obtainFeatures(img_path):
             img = cv2.imread(f'img/{img_path}/{letter}/{pic}')
             img = cv2.split(img)[0] # Obtenemos sólo un canal
             phi1, phi2, phi3, phi4, phi5, phi6, phi7 = hu.huMoments(img)
-            data[letter].append({'phi1': phi1,
-                                 'phi2': phi2,
-                                 'phi3': phi3,
-                                 'phi4': phi4,
-                                 'phi5': phi5,
-                                 'phi6': phi6,
-                                 'phi7': phi7})
 
+            new_data = {
+                'file': f'img/{img_path}/{letter}/{pic}',
+                'data': {
+                    'phi1': phi1,
+                    'phi2': phi2,
+                    'phi3': phi3,
+                    'phi4': phi4,
+                    'phi5': phi5,
+                    'phi6': phi6,
+                    'phi7': phi7
+                }
+            }
+            data[letter].append(new_data)
 
     with open(f'data/{img_path}_data.json', 'w') as json_file:
         json.dump(data, json_file, indent=2)
@@ -91,7 +97,7 @@ def obtainFeatures(img_path):
 def setupImgsFeatures(*pics):
 
     print('\n1) Revisando que estén todas las imágenes segmentadas...')
-    options = ['A', 'S', 'D', 'F', 'G']
+    options = ('A', 'S', 'D', 'F', 'G')
     segmentadas = True
 
     # Primero revisamos si tenemos todas las fotografías
@@ -123,12 +129,12 @@ def setupImgsFeatures(*pics):
 
     # Se obtienen las características de las imágenes
     for pic in pics:
-        data_path = pic[4:-4] + '_data.json'
+        data_path = pic + '_data.json'
         # Revisamos la información que ya está
         if data_path not in data_files:
             obtainFeatures(pic)
         else:
-            print(f'\tLas imágenes de {pic} ya tiene sus características!')
+            print(f'\tLas imágenes de {pic} ya tienen sus características!')
 
 
 

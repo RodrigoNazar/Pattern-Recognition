@@ -7,7 +7,7 @@ def successPercentage(results):
     total = len(results)
 
     for result in results:
-        if result['test_letter']['letter'] == result['result']:
+        if result['answer'] == result['output']:
             correct += 1
 
     return correct/total*100
