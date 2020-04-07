@@ -11,10 +11,10 @@ def main():
                       'img/Testing.png')
 
     # Realizamos el testing de la imagen de testing
-    results = testing()
+    # results = testing()
 
     # Obtenemos las estadísticas del método
-    getStatistics(results)
+    # getStatistics(results)
 
 
 
