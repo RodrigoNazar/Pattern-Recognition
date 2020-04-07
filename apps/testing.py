@@ -6,6 +6,9 @@ import numpy as np
 import argparse
 import json
 import os
+import itertools
+
+from apps.statistics import successPercentage
 
 
 def huDiference(hu1, hu2, moments):
@@ -41,14 +44,9 @@ def getDataFiles():
     return training_data, testing_data
 
 
-def testing():
-
-    print('\n3) Ejecutando el algoritmo de reconocimiento de caracteres...')
+def testing(huMomentsUsed):
 
     training_data, testing_data = getDataFiles()
-
-    # Momentos de hu que se consideran en el experimento
-    huMomentsUsed = ('phi1', 'phi2', 'phi3', 'phi4', 'phi5', 'phi6', 'phi7')
 
     results = []
 
@@ -111,6 +109,31 @@ def testing():
     # Ahora, tenemos un objeto JSON con cada letra del test con su respectivo
     # representante obtenido por knn de 5 vecinos
     return results
+
+
+def huCombinationTest():
+
+    print('\n3) Ejecutando el algoritmo de reconocimiento de ', end='')
+    print('caracteres, con distintas combinaciones de momentos de hu...')
+
+    # Momentos de hu
+    huMomentsUsed = ('phi1', 'phi2', 'phi3', 'phi4', 'phi5', 'phi6', 'phi7')
+
+    results = []
+
+    # Obtenemos todas las posibles combinaciones entre los distintos momentos
+    for length in range(len(huMomentsUsed)+1):
+        for subset in itertools.combinations(huMomentsUsed, length):
+            if subset: # Elimina la posibilidad vacía
+
+                results.append({
+                    'momentos': subset,
+                    'successPercentage': successPercentage(testing(subset))
+                })
+
+    result = sorted(results, key=lambda i: i['successPercentage'], reverse=True)[0]
+
+    return result['momentos'], result['successPercentage']
 
 
 if __name__ == '__main__':
