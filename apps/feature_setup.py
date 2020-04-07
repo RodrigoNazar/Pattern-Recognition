@@ -75,7 +75,13 @@ def obtainFeatures(img_path):
             img = cv2.imread(f'img/{img_path}/{letter}/{pic}')
             img = cv2.split(img)[0] # Obtenemos sólo un canal
             phi1, phi2, phi3, phi4, phi5, phi6, phi7 = hu.huMoments(img)
-            data[letter].append([phi1, phi2, phi3, phi4, phi5, phi6, phi7])
+            data[letter].append({'phi1': phi1,
+                                 'phi2': phi2,
+                                 'phi3': phi3,
+                                 'phi4': phi4,
+                                 'phi5': phi5,
+                                 'phi6': phi6,
+                                 'phi7': phi7})
 
 
     with open(f'data/{img_path}_data.json', 'w') as json_file:
