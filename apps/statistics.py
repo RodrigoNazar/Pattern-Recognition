@@ -1,6 +1,7 @@
 import json
 import pandas as pd
 import matplotlib.pyplot as plt
+import numpy as np
 
 
 def huHistograms(huMomentsUsed):
@@ -22,6 +23,16 @@ def huHistograms(huMomentsUsed):
 
 
     dataFrames = {mom: pd.DataFrame(moments[mom]) for mom in huMomentsUsed}
+
+    sign = lambda x: x if x >= 0 else -x
+
+    log = lambda x: -np.log10(x)
+
+    for dataframe in dataFrames:
+        # print(dataFrames[dataframe])
+        dataFrames[dataframe] = dataFrames[dataframe].apply(log)
+        # print('despuee', dataFrames[dataframe])
+
 
     # print(dataFrames)
     # dataFrames['phi1'].plot.kde(title='phi1')

@@ -3,6 +3,7 @@ import numpy as np
 from utils.utils import printImg
 
 def momentRS(img, r, s):
+    # Obtenemos los píxeles de R (blancos)
     whitePixels = np.argwhere(img == np.amax(img))
 
     m = 0
