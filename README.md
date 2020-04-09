@@ -48,53 +48,43 @@ Finalmente ejecutar:
 python main.py
 ```
 
-Para ejecutar la tarea.
+Para ejecutar el código de main de la tarea.
 
-## Running the tests
+## Corriendo el reconocedor
 
-Explain how to run the automated tests for this system
+En el enunciado de la tarea se pide implementar una función ```reconocedor.py``` con una función ```reconocedor``` dentro.
 
-### Break down into end to end tests
+Para importar esta función en un módulo aparte (como me imagino que corregirán), es necesario hacer todos los pasos anteriores, para que las rutas entre módulos estén bien definidas y no haya errores del tipo "Cannot import module..."
 
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-### And coding style tests
-
-Explain what these tests test and why
+Entonces se debe copiar el archivo ```.py``` con el que se testeará la función ```reconocedor.py``` en el directorio ```T1-Patrones``` y desde ese módulo importar el reconocedor como:
 
 ```
-Give an example
+from reconocedor import reconocedor
 ```
 
-## Deployment
+Así, se podrá usar la función de correcta manera
 
-Add additional notes about how to deploy this on a live system
+### Módulos y Directorios
 
-## Built With
+* ```apps```: Se encuentran las distintas aplicaciones desarrolladas para cada uno de los requerimientos de la tarea.
 
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
+  * ```feature_setup.py```: Procesa las imágenes de la ruta ```img``` y obtiene sus características (tanto como de training, como testing), para guardarlas en ```data```.
 
-## Versioning
+  * ```testing.py```: Ejecuta el clasificador de cada una de las imágenes de testing sobre las de training, consultando la información guardada en ```data```. También contiene el test de combinaciones de distintos momentos de hu.
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags).
+  * ```statistics.py```: Módulo que muestra estadísticas de desempeño del algoritmo utilizado.
+
+* ```data```: Directorio en el que se guarda la información de las características obtenidas de las imágenes de testing y training.
+
+* ```img```: Directorio en el que se encuentran las imágenes.
+
+* ```utils```: Directorio de útiles desarrollados para la tarea.
+
+  * ```huMoments.py```: Está toda la implementación de los momentos de hu.
+
+  * ```utils.py```: útiles generales para el procesamiento de imágenes
+
 
 ## Autor
 
 * **Rodrigo Nazar** - *Ingeniería Eléctrica UC* - [RodrigoNazar](https://github.com/RodrigoNazar)
-
-## Acknowledgments
-
-* Hat tip to anyone whose code was used
-* Inspiration
-* etc
-
-
-## Comandos útiles
-
-* Revisar https://www.youtube.com/watch?v=CdltAssTMs8&list=PLS1QulWo1RIa7D1O6skqDQ-JZ1GGHKK-K&index=15
