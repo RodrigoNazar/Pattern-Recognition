@@ -1,6 +1,6 @@
 
 from apps.feature_setup import setupImgsFeatures
-from apps.testing import huCombinationTest
+from apps.testing import huCombinationTest, testing
 from apps.statistics import getStatistics
 
 
@@ -25,6 +25,10 @@ def main():
 
     # Realizamos el testing de la imagen de testing
     momentos, aciertos = huCombinationTest()
+
+    results = testing(momentos)
+
+    getStatistics(results)
 
     print(FINAL.format(momentos, aciertos))
 

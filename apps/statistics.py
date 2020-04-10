@@ -32,8 +32,6 @@ def huHistograms(huMomentsUsed):
     for moment in huMomentsUsed:
         dataFrames[moment].plot.kde(title=moment)
 
-    plt.show()
-
 
 def huScatter(huMomentsUsed):
 
@@ -84,9 +82,7 @@ def huScatter(huMomentsUsed):
     ax.set_xlabel(huMomentsUsed[0])
     ax.set_ylabel(huMomentsUsed[1])
     ax.set_zlabel(huMomentsUsed[2])
-    # handles, labels = scatter.legend_elements()
     plt.legend(('A', 'S', 'D', 'F', 'G'))
-    plt.show()
 
 
 def successPercentage(results):
@@ -108,8 +104,13 @@ def getStatistics(results):
 
     huHistograms(['phi1', 'phi2', 'phi3'])
 
+    huScatter(['phi1', 'phi2', 'phi3'])
+
+    plt.show()
+
 
 if __name__ == '__main__':
     print('Statistics module')
-    # huHistograms(['phi1', 'phi2', 'phi3'])
+    huHistograms(['phi1', 'phi2', 'phi3'])
     huScatter(['phi1', 'phi2', 'phi3'])
+    plt.show()
