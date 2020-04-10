@@ -6,6 +6,7 @@ import numpy as np
 import argparse
 import json
 import os
+import pandas as pd
 
 from utils.utils import (getThresholdImgs, printImg, isInside, segmentate,
                          extractSubmatrix)
@@ -92,6 +93,48 @@ def obtainFeatures(img_path):
         json.dump(data, json_file, indent=2)
 
 
+def MinMaxNormalization(file):
+    print('\n', file)
+
+    with open(f'data/{file}_data.json', 'r') as json_file:
+        json_data = json.load(json_file)
+
+    huMoments = ('phi1', 'phi2', 'phi3', 'phi4', 'phi5', 'phi6', 'phi7')
+
+    # Obtenemos los valores de cada uno de los momentos calculados
+    moments_data = {mom: [] for mom in huMoments}
+
+    for letter in json_data:
+        for data in json_data[letter]:
+            for huElem in data['data']:
+                moments_data[huElem].append(data['data'][huElem])
+
+    # Creamos un diccionario con las funciones que normalizan cada uno
+    # de los momentos de hu
+    normalizations = {}
+
+    for moment in moments_data:
+        min_val, max_val = min(moments_data[moment]), max(moments_data[moment])
+        # print(moment, min_val, max_val)
+        normalizations[moment] = {'min': min_val,
+                                  'max': max_val}
+
+    '''Finalmente tenemos un diccionario que si hacemos'''
+
+    for i in normalizations:
+        print(normalizations[i])
+
+    # Aplicamos las respectivas normalizaciones a cada una de las características
+    for letter in json_data:
+        for data in json_data[letter]:
+            for huElem in data['data']:
+                min_val, max_val = normalizations[huElem]['min'], normalizations[huElem]['max']
+                data['data'][huElem] = (data['data'][huElem] - min_val)/(max_val-min_val)
+
+    with open(f'data/{file}_norm_data.json', 'w') as json_file:
+        json.dump(json_data, json_file, indent=2)
+
+
 def setupImgsFeatures(*pics):
 
     print('\n1) Revisando que estén todas las imágenes segmentadas...')
@@ -133,6 +176,17 @@ def setupImgsFeatures(*pics):
             obtainFeatures(pic)
         else:
             print(f'\tLas imágenes de {pic} ya tienen sus características!')
+
+    print('\n3) Normalizando los datos...')
+
+    # Se obtienen las características de las imágenes
+    for pic in pics:
+        data_path = pic + '_norm_data.json'
+        # Revisamos la información que ya está
+        if data_path not in data_files:
+            MinMaxNormalization(pic)
+        else:
+            print(f'\tLas imágenes de {pic} ya tienen sus características normalizadas!')
 
 
 if __name__ == '__main__':

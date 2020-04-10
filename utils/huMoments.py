@@ -27,7 +27,7 @@ def centroid(img):
 def uMomentRS(img, r, s):
     x_cent, y_cent = centroid(img)
 
-    whitePixels = np.argwhere(img == 255)
+    whitePixels = np.argwhere(img == np.amax(img))
 
     u = 0
 
