@@ -24,24 +24,68 @@ def huHistograms(huMomentsUsed):
 
     dataFrames = {mom: pd.DataFrame(moments[mom]) for mom in huMomentsUsed}
 
-    sign = lambda x: x if x >= 0 else -x
-
+    # Aplicamos una transformación a escala logaritmica
     log = lambda x: -np.log10(x)
-
     for dataframe in dataFrames:
-        # print(dataFrames[dataframe])
         dataFrames[dataframe] = dataFrames[dataframe].apply(log)
-        # print('despuee', dataFrames[dataframe])
+
+    for moment in huMomentsUsed:
+        dataFrames[moment].plot.kde(title=moment)
+
+    plt.show()
 
 
-    # print(dataFrames)
-    # dataFrames['phi1'].plot.kde(title='phi1')
-    dataFrames['phi2'].plot.kde(title='phi2')
-    dataFrames['phi3'].plot.kde(title='phi3')
-    dataFrames['phi4'].plot.kde(title='phi4')
-    # dataFrames['phi5'].plot.kde(title='phi5')
-    # dataFrames['phi6'].plot.kde(title='phi6')
-    # dataFrames['phi7'].plot.kde(title='phi7')
+def huScatter(huMomentsUsed):
+
+    if len(huMomentsUsed) != 3:
+        raise Exception
+
+    with open('data/training_data.json', 'r') as json_file:
+        training_data = json.load(json_file)
+
+    moments = {mom: {
+        'A': [],
+        'S': [],
+        'D': [],
+        'F': [],
+        'G': []
+    } for mom in huMomentsUsed}
+
+    for moment in huMomentsUsed:
+        for letter in ['A', 'S', 'D', 'F', 'G']:
+            for elem in training_data[letter]:
+                moments[moment][letter].append(elem['data'][moment])
+
+
+    dataFrames = {mom: pd.DataFrame(moments[mom]) for mom in huMomentsUsed}
+
+    # Aplicamos una transformación a escala logaritmica
+    log = lambda x: -np.log10(x)
+    for dataframe in dataFrames:
+        dataFrames[dataframe] = dataFrames[dataframe].apply(log)
+
+
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
+
+    filled_markers = ('o', 'v', '^', '<', '>', '8', 's', 'p', '*',
+                      'h', 'H', 'D', 'd', 'P', 'X')
+
+    for inx, letter in enumerate(('A', 'S', 'D', 'F', 'G')):
+        fields = []
+
+        for moment in huMomentsUsed:
+            fields.append(dataFrames[moment][letter])
+
+        xs, ys, zs = fields
+        scatter = ax.scatter(xs, ys, zs, marker=filled_markers[inx])
+
+
+    ax.set_xlabel(huMomentsUsed[0])
+    ax.set_ylabel(huMomentsUsed[1])
+    ax.set_zlabel(huMomentsUsed[2])
+    # handles, labels = scatter.legend_elements()
+    plt.legend(('A', 'S', 'D', 'F', 'G'))
     plt.show()
 
 
@@ -62,9 +106,10 @@ def getStatistics(results):
 
     print(f'\tEl porcentaje de aciertos es: {successPercentage(results)}%')
 
-    huHistograms(['phi1', 'phi2', 'phi3', 'phi4', 'phi5', 'phi6', 'phi7'])
+    huHistograms(['phi1', 'phi2', 'phi3'])
 
 
 if __name__ == '__main__':
     print('Statistics module')
-    huHistograms(['phi1', 'phi2', 'phi3', 'phi4', 'phi5', 'phi6', 'phi7'])
+    # huHistograms(['phi1', 'phi2', 'phi3'])
+    huScatter(['phi1', 'phi2', 'phi3'])

@@ -78,6 +78,8 @@ Así, se podrá usar la función de correcta manera
 
 * ```img```: Directorio en el que se encuentran las imágenes.
 
+* ```results```: Directorio en el que se guarda un archivo con los resultados obtenidos del test ```huCombinationTest``` ubicado en ```apps/testing.py```. Lo que hace este test es iterar entre distintas combinaciones de momentos de hu, para elegir la que tiene mayor porcentaje de aciertos.
+
 * ```utils```: Directorio de útiles desarrollados para la tarea.
 
   * ```huMoments.py```: Está toda la implementación de los momentos de hu.

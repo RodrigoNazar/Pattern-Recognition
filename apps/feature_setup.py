@@ -94,7 +94,6 @@ def obtainFeatures(img_path):
 
 
 def MinMaxNormalization(file):
-    print('\n', file)
 
     with open(f'data/{file}_data.json', 'r') as json_file:
         json_data = json.load(json_file)
@@ -118,11 +117,6 @@ def MinMaxNormalization(file):
         # print(moment, min_val, max_val)
         normalizations[moment] = {'min': min_val,
                                   'max': max_val}
-
-    '''Finalmente tenemos un diccionario que si hacemos'''
-
-    for i in normalizations:
-        print(normalizations[i])
 
     # Aplicamos las respectivas normalizaciones a cada una de las características
     for letter in json_data:

@@ -30,13 +30,13 @@ def knn(list, neighbors):
 def getDataFiles():
 
     # Obtenemos las features de las imágenes de training
-    training_file = [file for file in os.listdir('data/') if 'training' in file][0]
+    training_file = [file for file in os.listdir('data/') if 'training_norm' in file][0]
 
     with open(f'data/{training_file}', 'r') as json_file:
         training_data = json.load(json_file)
 
     # Obtenemos las features de las imágenes de testing
-    testing_file = [file for file in os.listdir('data/') if 'testing' in file][0]
+    testing_file = [file for file in os.listdir('data/') if 'testing_norm' in file][0]
 
     with open(f'data/{testing_file}', 'r') as json_file:
         testing_data = json.load(json_file)
@@ -97,8 +97,6 @@ def testing(huMomentsUsed):
 
                     differences.append(dif_data)
 
-
-
             # Obtenemos el resultado consultando a los 5 vecinos más cercanos
             result = knn(differences, 5)
 
@@ -113,7 +111,7 @@ def testing(huMomentsUsed):
 
 def huCombinationTest():
 
-    print('\n3) Ejecutando el algoritmo de reconocimiento de ', end='')
+    print('\n4) Ejecutando el algoritmo de reconocimiento de ', end='')
     print('caracteres, con distintas combinaciones de momentos de hu...')
 
     # Momentos de hu
@@ -130,6 +128,9 @@ def huCombinationTest():
                     'momentos': subset,
                     'successPercentage': successPercentage(testing(subset))
                 })
+
+    with open('results/results.json', 'w') as json_file:
+        json.dump(results, json_file, indent=2)
 
     result = sorted(results, key=lambda i: i['successPercentage'], reverse=True)[0]
 
