@@ -26,6 +26,18 @@ Las cosas más importantes a tener en consideración, son:
 
 ### Instalación
 
+Lo primero es instalar el ambiente virtual de python 3 en el directorio con:
+
+```
+virtualenv -p python3 venv
+```
+
+Para luego ingresar a el con:
+
+```
+source venv/bin/activate
+```
+
 Una vez ya dentro del ambiente virtual se recomienda ejecutar los siguientes comandos:
 
 Instalar las librerías utilizadas en la tarea vía pip:
@@ -42,6 +54,12 @@ make
 
 Esto hace que se eliminen los archivos compilados de python ```.pyc``` y que se ejecute el arhivo ```setup.py``` que ordena las dependencias de las rutas del proyecto.
 
+Si no puedes ejecutar el comando ```make```, puedes ejecutar el siguiente comando que lo reemplaza:
+```
+python setup.py develop
+```
+
+
 Finalmente ejecutar:
 
 ```
@@ -50,7 +68,7 @@ python main.py
 
 Para ejecutar el código de main de la tarea.
 
-## Corriendo el reconocedor
+## Corriendo e importando el reconocedor
 
 En el enunciado de la tarea se pide implementar una función ```reconocedor.py``` con una función ```reconocedor``` dentro.
 
