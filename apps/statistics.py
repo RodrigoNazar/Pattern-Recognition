@@ -30,7 +30,16 @@ def huHistograms(huMomentsUsed):
         dataFrames[dataframe] = dataFrames[dataframe].apply(log)
 
     for moment in huMomentsUsed:
-        dataFrames[moment].plot.kde(title=moment)
+        titles = {
+            'phi1': r'$\phi 1$',
+            'phi2': r'$\phi 2$',
+            'phi3': r'$\phi 3$',
+            'phi4': r'$\phi 4$',
+            'phi5': r'$\phi 5$',
+            'phi6': r'$\phi 6$',
+            'phi7': r'$\phi 7$',
+        }
+        dataFrames[moment].plot.kde(title=titles[moment])
 
 
 def huScatter(huMomentsUsed):
@@ -78,10 +87,19 @@ def huScatter(huMomentsUsed):
         xs, ys, zs = fields
         scatter = ax.scatter(xs, ys, zs, marker=filled_markers[inx])
 
+    titles = {
+        'phi1': r'$\phi 1$',
+        'phi2': r'$\phi 2$',
+        'phi3': r'$\phi 3$',
+        'phi4': r'$\phi 4$',
+        'phi5': r'$\phi 5$',
+        'phi6': r'$\phi 6$',
+        'phi7': r'$\phi 7$',
+    }
 
-    ax.set_xlabel(huMomentsUsed[0])
-    ax.set_ylabel(huMomentsUsed[1])
-    ax.set_zlabel(huMomentsUsed[2])
+    ax.set_xlabel(titles[huMomentsUsed[0]])
+    ax.set_ylabel(titles[huMomentsUsed[1]])
+    ax.set_zlabel(titles[huMomentsUsed[2]])
     plt.legend(('A', 'S', 'D', 'F', 'G'))
 
 

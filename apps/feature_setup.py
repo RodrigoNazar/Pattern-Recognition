@@ -108,17 +108,15 @@ def MinMaxNormalization(file):
             for huElem in data['data']:
                 moments_data[huElem].append(data['data'][huElem])
 
-    # Creamos un diccionario con las funciones que normalizan cada uno
-    # de los momentos de hu
+    # Creamos un diccionario con los valores máximos y mínimos de cada momento
     normalizations = {}
-
     for moment in moments_data:
         min_val, max_val = min(moments_data[moment]), max(moments_data[moment])
         # print(moment, min_val, max_val)
         normalizations[moment] = {'min': min_val,
                                   'max': max_val}
 
-    # Aplicamos las respectivas normalizaciones a cada una de las características
+    # Aplicamos las respectivas normalizaciones a cada uno de los momentos
     for letter in json_data:
         for data in json_data[letter]:
             for huElem in data['data']:

@@ -15,22 +15,23 @@ def main():
     SPOILER:
 
     Los resultados óptimos calculados por el programa son:
-        momentos = ('phi2', 'phi3', 'phi4')
-        aciertos = 98.88888888888889
+        momentos = ('phi1', 'phi2', 'phi3')
+        aciertos = 100
     '''
 
     # Obtenemos las características de las imágenes otorgadas
     setupImgsFeatures('img/Training_01.png', 'img/Training_02.png',
                       'img/Testing.png')
 
-    # Realizamos el testing de la imagen de testing
+    # Hacemos los tests de reconocimiento en base a distintas combinaciones
+    # de momentos de hu
     momentos, aciertos = huCombinationTest()
-
-    results = testing(momentos)
-
-    getStatistics(results)
-
     print(FINAL.format(momentos, aciertos))
+
+    # Obtenemos los resultados de la mejor combinación e imprimimos sus
+    # estadísticas
+    results = testing(momentos)
+    getStatistics(results)
 
 
 if __name__ == '__main__':

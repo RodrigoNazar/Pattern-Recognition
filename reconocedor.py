@@ -1,8 +1,9 @@
 
 import cv2
+import json
 
 import utils.huMoments as hu
-from utils.utils import getThresholdImgs
+from utils.utils import getThresholdImgs, printImg
 from apps.testing import getDataFiles, knn, huDifference
 
 
@@ -30,8 +31,8 @@ def reconocedor(X):
         'G': 5
     }
 
+    # Obtenemos los momentos de hu de X
     phi1, phi2, phi3, phi4, phi5, phi6, phi7 = hu.huMoments(X)
-
     testing_json = {
         'phi1': phi1,
         'phi2': phi2,
@@ -42,15 +43,41 @@ def reconocedor(X):
         'phi7': phi7
     }
 
-    huMomentsUsed = ('phi2', 'phi3', 'phi4')
+    # Ahora, les aplicamos una normalización Min Max
+    with open(f'data/testing_data.json', 'r') as json_file:
+        json_data = json.load(json_file)
 
+    huMomentsUsed = ('phi1', 'phi2', 'phi3', 'phi4', 'phi5', 'phi6', 'phi7')
+
+    # Obtenemos los valores de cada uno de los momentos calculados
+    moments_data = {mom: [] for mom in huMomentsUsed}
+
+    for letter in json_data:
+        for data in json_data[letter]:
+            for huElem in data['data']:
+                moments_data[huElem].append(data['data'][huElem])
+
+    # Creamos un diccionario con los valores máximos y mínimos de cada momento
+    normalizations = {}
+    for moment in moments_data:
+        min_val, max_val = min(moments_data[moment]), max(moments_data[moment])
+        # print(moment, min_val, max_val)
+        normalizations[moment] = {'min': min_val,
+                                  'max': max_val}
+
+    # Aplicamos la normalización de los momentos de X
+    for moment in testing_json:
+        min_val, max_val = normalizations[moment]['min'], normalizations[moment]['max']
+        testing_json[moment] = (testing_json[moment] - min_val)/(max_val-min_val)
+
+    # Ahora procedemos a comparar los momentos normalizados de X con los del
+    # training
     training_data, _ = getDataFiles()
-
     differences = []
 
     for letter in training_data:
         for training_json in training_data[letter]:
-
+            # Obtenemos la diferencia y la guardamos
             difference = huDifference(testing_json,
                            training_json['data'],
                            huMomentsUsed)
@@ -70,7 +97,7 @@ def reconocedor(X):
 
 def reconocedorTest():
     # Letra A
-    A = cv2.imread('img/testing/A/A_23.png')
+    A = cv2.imread('img/testing/A/A_22.png')
     th_A, _, _ = getThresholdImgs(A)
 
     # Letra S

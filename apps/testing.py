@@ -123,7 +123,7 @@ def huCombinationTest():
     for length in range(len(huMomentsUsed)+1):
         for subset in itertools.combinations(huMomentsUsed, length):
             if subset: # Elimina la posibilidad vacía
-
+                # Hacemos el test con cada combinación
                 results.append({
                     'momentos': subset,
                     'successPercentage': successPercentage(testing(subset))
@@ -138,4 +138,5 @@ def huCombinationTest():
 
 
 if __name__ == '__main__':
+    print('Testing module')
     testing(('phi1', 'phi2', 'phi3', 'phi4', 'phi5', 'phi6', 'phi7'))
