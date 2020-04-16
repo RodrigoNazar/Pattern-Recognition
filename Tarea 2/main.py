@@ -16,7 +16,7 @@ def main():
 
     Los resultados óptimos calculados por el programa son:
         momentos = ('phi1', 'phi2', 'phi3')
-        aciertos = 100
+        aciertos = 100 
     '''
 
     # Obtenemos las características de las imágenes otorgadas
