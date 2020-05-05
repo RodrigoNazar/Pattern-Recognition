@@ -1,6 +1,6 @@
-# T1-Patrones
+# Tarea 02: Reconocedor de Paredes Rayadas
 
-Esta tarea consiste en desarrollar un reconocedor atomático de las letras A, S, D, F y G de distintas fuentes.
+Esta tarea consiste en desarrollar un reconocedor automático de paredes rayadas usando características de texturas, un seleccionador de características y knn.
 
 ## Empezando
 
