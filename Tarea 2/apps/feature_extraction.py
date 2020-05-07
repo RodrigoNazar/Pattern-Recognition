@@ -28,7 +28,7 @@ def FeatureExtractor(training_path='img/training',
                 # Obtenemos los umbrales de cada canal
                 th_R, th_G, th_B = getThresholdImgs(img)
 
-                
+                print(img_path)
 
                 break
 
