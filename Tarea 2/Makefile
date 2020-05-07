@@ -8,5 +8,4 @@ git:
 	git add .
 	git commit -m'commiting from makefile'
 	git push
-	echo ""
 	git status
