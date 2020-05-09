@@ -85,7 +85,7 @@ def FeatureExtractor(training_path='img/training',
 
         # Si ya se calcularon las características, sólo las consultamos
         existsData = os.listdir('data/')
-        if existsData:
+        if 'paredes_data.json' in existsData:
             print('Se encontraron características ya calculadas!')
             with open(os.path.join('data/', existsData[0]), 'r') as file:
                 return json.loads(file.read())
