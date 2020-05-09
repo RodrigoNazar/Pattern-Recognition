@@ -35,59 +35,63 @@ for channel in ('Red ', 'Green ', 'Blue '):
         feature_names.append(feature + ' sum')
 
 
+def FeatureComputator(img_path):
+    img = cv2.imread(img_path)
+
+    # Obtenemos los umbrales de cada canal
+    th_R, th_G, th_B = getThresholdImgs(img)
+
+
+    # FEATURE EXTRACTION
+
+    # LBP features
+    #   > 59 features por canal
+    lbp_R = LBPFeatures(th_R)
+    lbp_G = LBPFeatures(th_G)
+    lbp_B = LBPFeatures(th_B)
+
+
+    # Haralick features
+    #   > 48 features por canal
+    haralick_R = HaralickFeatures(th_R)
+    haralick_G = HaralickFeatures(th_G)
+    haralick_B = HaralickFeatures(th_B)
+
+
+    # Gabor features
+    #   > 12 features por canal
+    gabor_R = GaborFeatures(th_R)
+    gabor_G = GaborFeatures(th_G)
+    gabor_B = GaborFeatures(th_B)
+
+
+    # Features por canal
+    features_R = np.concatenate((lbp_R, haralick_R, gabor_R))
+    features_G = np.concatenate((lbp_G, haralick_G, gabor_G))
+    features_B = np.concatenate((lbp_B, haralick_B, gabor_B))
+
+
+    # Vector final de features, de lago (59 + 48 + 12)*3 = 357
+    return np.concatenate((features_R, features_G, features_B)).tolist()
+
+
 
 def FeatureExtractor(training_path='img/training',
                      testing_path='img/testing',
                      classes=classes):
 
+        # data =
+
         # Features of training images
         for _class in classes:
             dir_path = os.listdir(os.path.join(training_path, _class))
             for img in dir_path:
-                start = datetime.now()
 
                 img_path = os.path.join(training_path, _class, img)
-                img = cv2.imread(img_path)
 
-                # Obtenemos los umbrales de cada canal
-                th_R, th_G, th_B = getThresholdImgs(img)
+                features = FeatureComputator(img_path)
 
-
-                # FEATURE EXTRACTION
-
-                # LBP features
-                #   > 59 features por canal
-                lbp_R = LBPFeatures(th_R)
-                lbp_G = LBPFeatures(th_G)
-                lbp_B = LBPFeatures(th_B)
-
-
-                # Haralick features
-                #   > 48 features por canal
-                haralick_R = HaralickFeatures(th_R)
-                haralick_G = HaralickFeatures(th_G)
-                haralick_B = HaralickFeatures(th_B)
-
-
-                # Gabor features
-                #   > 12 features por canal
-                gabor_R = GaborFeatures(th_R)
-                gabor_G = GaborFeatures(th_G)
-                gabor_B = GaborFeatures(th_B)
-
-
-                # Features por canal
-                features_R = np.concatenate((lbp_R, haralick_R, gabor_R))
-                features_G = np.concatenate((lbp_G, haralick_G, gabor_G))
-                features_B = np.concatenate((lbp_B, haralick_B, gabor_B))
-
-
-                # Vector final de features, de lago (59 + 48 + 12)*3 = 357
-                features = np.concatenate((features_R, features_G, features_B))
-
-                print('datetime', datetime.now()- start)
-
-
+                print(type(features), len(features))
 
                 break
 
