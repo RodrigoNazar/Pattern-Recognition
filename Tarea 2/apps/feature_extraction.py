@@ -7,6 +7,7 @@ import cv2
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
+import json
 
 from utils.utils import getThresholdImgs, printImg
 from utils.gabor import GaborFeatures
@@ -80,20 +81,68 @@ def FeatureExtractor(training_path='img/training',
                      testing_path='img/testing',
                      classes=classes):
 
-        # data =
+        print('\nObteniendo las características ...')
 
-        # Features of training images
+        # Si ya se calcularon las características, sólo las consultamos
+        existsData = os.listdir('data/')
+        if existsData:
+            print('Se encontraron características ya calculadas!')
+            with open(os.path.join('data/', existsData[0]), 'r') as file:
+                return json.loads(file.read())
+
+        # Si no se han calculado las características, lo hacemos
+        print('Calculando las características de las imágenes:\n')
+        data = {
+            'feature_names': feature_names,
+            'feature_values_train': [],
+            'labels_train': [],
+            'feature_values_test': [],
+            'labels_test': [],
+
+        }
+
+        start = datetime.now()
+
         for _class in classes:
+
+            i = 0
+
+            # Características de las imágenes de training
             dir_path = os.listdir(os.path.join(training_path, _class))
             for img in dir_path:
 
                 img_path = os.path.join(training_path, _class, img)
+                print(f'Procesando {img_path}, imagen número {i}')
 
                 features = FeatureComputator(img_path)
+                label = 1 if _class == 'rayada' else 2
 
-                print(type(features), len(features))
+                data['feature_values_train'].append(features)
+                data['labels_train'].append(label)
+                i += 1
 
-                break
+            # Características de las imágenes de testing
+            dir_path = os.listdir(os.path.join(testing_path, _class))
+            for img in dir_path:
+
+                img_path = os.path.join(testing_path, _class, img)
+                print(f'Procesando {img_path}, imagen número {i}')
+
+                features = FeatureComputator(img_path)
+                label = 1 if _class == 'rayada' else 2
+
+                data['feature_values_test'].append(features)
+                data['labels_test'].append(label)
+
+                i += 1
+
+        # Finalmente guardamos los datos en un archivo
+        with open('data/paredes_data.json', 'w') as json_file:
+            json_file.write(json.dumps(data))
+
+        print('Tiempo tomado por la extracción: ', datetime.now() - start)
+
+        return data
 
 
 if __name__ == '__main__':

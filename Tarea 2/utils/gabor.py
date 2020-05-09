@@ -7,10 +7,12 @@ from skimage.util import img_as_float
 from skimage.filters import gabor_kernel
 import matplotlib.pyplot as plt
 
+
 '''
 Módulo inspirado en el código expuesto en:
 https://scikit-image.org/docs/0.12.x/auto_examples/features_detection/plot_gabor.html
 '''
+
 
 def GaborFunctions(sigma, frequency, angles):
     kernels = []
@@ -33,12 +35,3 @@ def GaborFeatures(img, sigma=5, frequency=.25, angles=4):
         feats[3*k + 1] = filtered.var()
         feats[3*k + 2] = filtered.sum()
     return feats
-
-
-
-
-# for ker in GaborFunctions():
-#     plt.figure()
-#     plt.imshow(ker, cmap='gray')
-#
-# plt.show()

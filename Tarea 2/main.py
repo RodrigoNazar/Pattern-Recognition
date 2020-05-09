@@ -7,7 +7,7 @@ CLASSES = ['rayada', 'no_rayada']
 
 def main():
 
-    feature_extractor = FeatureExtractor(classes=CLASSES)
+    features = FeatureExtractor(classes=CLASSES)
 
 
 if __name__ == '__main__':
