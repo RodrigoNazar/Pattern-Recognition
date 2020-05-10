@@ -48,7 +48,7 @@ def main():
     # Paso 5: Selección de características
     # Acá se utilizó el criterio de fisher
     #   > Training: 8000 x 50
-    s_sfs = sfs(X_train, labels_train, n_features=15)
+    s_sfs = sfs(X_train, labels_train, n_features=50)
     X_train = X_train[:, s_sfs]
 
 
