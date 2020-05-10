@@ -40,30 +40,30 @@ def FeatureComputator(img_path):
     img = cv2.imread(img_path)
 
     # Obtenemos los umbrales de cada canal
-    th_R, th_G, th_B = getThresholdImgs(img)
+    img_R, img_G, img_B = cv2.split(img)
 
 
     # FEATURE EXTRACTION
 
     # LBP features
     #   > 59 features por canal
-    lbp_R = LBPFeatures(th_R)
-    lbp_G = LBPFeatures(th_G)
-    lbp_B = LBPFeatures(th_B)
+    lbp_R = LBPFeatures(img_R)
+    lbp_G = LBPFeatures(img_G)
+    lbp_B = LBPFeatures(img_B)
 
 
     # Haralick features
     #   > 48 features por canal
-    haralick_R = HaralickFeatures(th_R)
-    haralick_G = HaralickFeatures(th_G)
-    haralick_B = HaralickFeatures(th_B)
+    haralick_R = HaralickFeatures(img_R)
+    haralick_G = HaralickFeatures(img_G)
+    haralick_B = HaralickFeatures(img_B)
 
 
     # Gabor features
     #   > 12 features por canal
-    gabor_R = GaborFeatures(th_R)
-    gabor_G = GaborFeatures(th_G)
-    gabor_B = GaborFeatures(th_B)
+    gabor_R = GaborFeatures(img_R)
+    gabor_G = GaborFeatures(img_G)
+    gabor_B = GaborFeatures(img_B)
 
 
     # Features por canal

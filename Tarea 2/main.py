@@ -3,8 +3,8 @@ import numpy as np
 from pybalu.feature_selection import clean
 from pybalu.feature_transformation import normalize
 from sklearn.neighbors import KNeighborsClassifier as KNN
-from pybalu.performance_eval import performance
 
+from apps.classifier_performance import performance
 from apps.feature_extraction import FeatureExtractor
 from apps.feature_selection import sfs
 
