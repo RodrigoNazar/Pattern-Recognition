@@ -83,6 +83,10 @@ def sfs(data, labels, n_features):
     remaining_features = [i for i in range(M)]
     current_scores = {}
 
+    TOLERANCE = .0001
+
+    last_J = - np.inf
+
     for _ in range(n_features):
         for inx, feature in enumerate(remaining_features):
             features = selected_features + [feature]
@@ -91,11 +95,21 @@ def sfs(data, labels, n_features):
             current_scores[jFisher(data[:, features], labels)] = feature
 
         best = current_scores[max(current_scores.keys())]
-        print(best, max(current_scores.keys()))
+        current_J = max(current_scores.keys())
 
         selected_features.append(best)
         remaining_features.remove(best)
         current_scores = {}
+
+        print(best, abs(last_J - current_J))
+
+        if abs(last_J - current_J) < TOLERANCE:
+            print('Se superó la tolerancia')
+            break
+        else:
+            last_J = current_J
+
+
 
     file_data = {
         'data': data.tolist(),
