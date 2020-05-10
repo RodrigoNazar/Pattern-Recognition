@@ -11,7 +11,10 @@ https://scikit-image.org/docs/dev/auto_examples/features_detection/plot_local_bi
 
 def LBPFeatures(img):
     patterns = local_binary_pattern(img, P=8, R=1, method='nri_uniform')
-
-    n_bins = int(patterns.max() + 1)
+    n_bins = 59
     hist, _ = np.histogram(patterns.ravel(), density=True, bins=n_bins, range=(0, n_bins))
+
+    if len(hist) != 59:
+        print('LBP malo!!')
+
     return hist
