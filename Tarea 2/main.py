@@ -1,11 +1,12 @@
 
 import numpy as np
-from pybalu.feature_selection import clean, sfs
+from pybalu.feature_selection import clean
 from pybalu.feature_transformation import normalize
 from sklearn.neighbors import KNeighborsClassifier as KNN
 from pybalu.performance_eval import performance
 
 from apps.feature_extraction import FeatureExtractor
+from apps.feature_selection import sfs
 
 
 CLASSES = ['rayada', 'no_rayada']
@@ -40,40 +41,37 @@ def main():
     X_train = X_train[:, s_clean]
 
 
-    # Paso 4: Normalización MinMax de los datos
+    # Paso 4: Normalización Mean-Std de los datos
     X_train, a, b = normalize(X_train)
 
 
     # Paso 5: Selección de características
     # Acá se utilizó el criterio de fisher
     #   > Training: 8000 x 50
-    s_sfs = sfs(X_train, labels_train, n_features=50, method="fisher", show=True)
-    X_train = X_train[:, s_sfs]
+    '''Implementar yo'''
 
+    s_sfs = sfs(X_train, labels_train, n_features=50)
 
-    # *** DEFINCION DE DATOS PARA EL TESTING ***
-
-    X_test = X_test[:, s_clean]        # Paso 3: clean
-    X_test = X_test*a + b              # Paso 4: normalizacion
-    X_test = X_test[:, s_sfs]          # Paso 5: SFS
-
-
-    # *** ENTRENAMIENTO CON DATOS DE TRAINING Y PRUEBA CON DATOS DE TESTING ***
-
-    knn = KNN(n_neighbors=3)
-    knn.fit(X_train, labels_train)
-    Y_pred = knn.predict(X_test)
-    accuracy = performance(Y_pred, labels_test)
-
-    print("Accuracy = " + str(accuracy))
-
-
-    # print('X_train', X_train.shape, type(X_train))
-    # print('labels_train', labels_train.shape, type(labels_train))
-    # print('X_test', X_test.shape, type(X_test))
-    # print('labels_test', labels_test.shape, type(labels_test))
-
-
+    # s_sfs = sfs(X_train, labels_train, n_features=50, method="fisher", show=True)
+    # print(s_sfs, type(s_sfs), len(s_sfs))
+    # X_train = X_train[:, s_sfs]
+    #
+    #
+    # # *** DEFINCION DE DATOS PARA EL TESTING ***
+    #
+    # X_test = X_test[:, s_clean]        # Paso 3: clean
+    # X_test = X_test*a + b              # Paso 4: normalizacion
+    # X_test = X_test[:, s_sfs]          # Paso 5: SFS
+    #
+    #
+    # # *** ENTRENAMIENTO CON DATOS DE TRAINING Y PRUEBA CON DATOS DE TESTING ***
+    #
+    # knn = KNN(n_neighbors=3)
+    # knn.fit(X_train, labels_train)
+    # Y_pred = knn.predict(X_test)
+    # accuracy = performance(Y_pred, labels_test)
+    #
+    # print("Accuracy = " + str(accuracy))
 
 
 if __name__ == '__main__':
