@@ -36,12 +36,11 @@ for channel in ('Red ', 'Green ', 'Blue '): # Para cada canal
         feature_names.append(feature + ' sum')
 
 
-def FeatureComputator(img_path):
+def FeatureComputator(img):
     '''
     Calcula el vector de característica por imagen
     '''
-    img = cv2.imread(img_path)
-
+    
     # Obtenemos los umbrales de cada canal
     img_R, img_G, img_B = cv2.split(img)
 
@@ -125,10 +124,12 @@ def FeatureExtractor(training_path='img/training',
             for img in dir_path:
 
                 img_path = os.path.join(training_path, _class, img)
+                img = cv2.imread(img_path)
+
                 print(f'Procesando {img_path}, imagen número {i}/10000')
 
                 # Calculamos el vector de características
-                features = FeatureComputator(img_path)
+                features = FeatureComputator(img)
                 # Etiqueta de la muestra
                 label = 1 if _class == 'rayada' else 2
 
@@ -141,10 +142,11 @@ def FeatureExtractor(training_path='img/training',
             for img in dir_path:
 
                 img_path = os.path.join(testing_path, _class, img)
+                img = cv2.imread(img_path)
                 print(f'Procesando {img_path}, imagen número {i}/10000')
 
                 # Calculamos el vector de características
-                features = FeatureComputator(img_path)
+                features = FeatureComputator(img)
                 # Etiqueta de la muestra
                 label = 1 if _class == 'rayada' else 2
 

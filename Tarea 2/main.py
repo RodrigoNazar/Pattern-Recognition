@@ -3,8 +3,9 @@ import numpy as np
 from pybalu.feature_selection import clean
 from pybalu.feature_transformation import normalize
 from sklearn.neighbors import KNeighborsClassifier as KNN
+import json
 
-from apps.classifier_performance import performance
+from apps.classifier_performance import performance, confusionMatrix
 from apps.feature_extraction import FeatureExtractor
 from apps.feature_selection import sfs
 
@@ -14,6 +15,15 @@ CLASSES = ['rayada', 'no_rayada']
 
 
 def main():
+    '''
+    Desarrollo de el flujo del programa de reconocimiento de paredes rayadas
+
+    La metodología utilizada es la que se describe en:
+    https://github.com/domingomery/patrones/blob/master/clases/Cap03_Seleccion_de_Caracteristicas/presentations/PAT03_GeneralSchema.pdf
+
+    La estructura del código se basó en el código de ejemplo de la actividad en clases:
+    https://github.com/domingomery/patrones/tree/master/clases/Cap03_Seleccion_de_Caracteristicas/ejercicios/PCA_SFS
+    '''
 
     # Paso 1: Extracción de características
     #   > 4000 imágenes de training rayadas
@@ -37,7 +47,7 @@ def main():
     # *** DEFINCION DE DATOS PARA EL TRAINING ***
 
     # Paso 3: Cleaning de los datos
-    #   > Training: 8000 x 114
+    #   > Training: 8000 x 250
     s_clean = clean(X_train)
     X_train = X_train[:, s_clean]
 
@@ -65,9 +75,33 @@ def main():
     knn = KNN(n_neighbors=3)
     knn.fit(X_train, labels_train)
     Y_pred = knn.predict(X_test)
-    accuracy = performance(Y_pred, labels_test)
 
+
+    # *** Estadísticas y desempeño del clasificador ***
+    accuracy = performance(Y_pred, labels_test)
     print("Accuracy = " + str(accuracy))
+    confusionMatrix(Y_pred, labels_test)
+
+    printChoosenFeatures = True
+    if printChoosenFeatures:
+        feature_names = np.array(features['feature_names'])
+        feature_names = feature_names[s_sfs]
+        print('Las features seleccionadas por el sistema son:')
+        for name in feature_names:
+            print(name, end=' -- ')
+
+
+    # *** Guardado de las variables para el reconocedor externo ***
+    with open('data/reconocedor.json', 'w') as file:
+        file.write(json.dumps({
+            's_clean': s_clean.tolist(),
+            'a': a.tolist(),
+            'b': b.tolist(),
+            's_sfs': s_sfs.tolist()
+        }))
+
+
+
 
 
 if __name__ == '__main__':
