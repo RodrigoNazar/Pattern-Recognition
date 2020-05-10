@@ -45,9 +45,9 @@ def jFisher(data, labels):
             Ck_diff = (feature - barZ_class).reshape((M, 1))
             Ck += np.dot(Ck_diff, Ck_diff.T)
 
-        print(class_features.shape)
+        Ck /= class_features.shape[0] - 1
 
-        # Ck /=
+        Cw += pk[_class] * Ck
 
 
     try:

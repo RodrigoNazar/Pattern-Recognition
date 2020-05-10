@@ -48,30 +48,25 @@ def main():
     # Paso 5: Selección de características
     # Acá se utilizó el criterio de fisher
     #   > Training: 8000 x 50
-    '''Implementar yo'''
+    s_sfs = sfs(X_train, labels_train, n_features=6)
+    X_train = X_train[:, s_sfs]
 
-    s_sfs = sfs(X_train, labels_train, n_features=50)
 
-    # s_sfs = sfs(X_train, labels_train, n_features=50, method="fisher", show=True)
-    # print(s_sfs, type(s_sfs), len(s_sfs))
-    # X_train = X_train[:, s_sfs]
-    #
-    #
-    # # *** DEFINCION DE DATOS PARA EL TESTING ***
-    #
-    # X_test = X_test[:, s_clean]        # Paso 3: clean
-    # X_test = X_test*a + b              # Paso 4: normalizacion
-    # X_test = X_test[:, s_sfs]          # Paso 5: SFS
-    #
-    #
-    # # *** ENTRENAMIENTO CON DATOS DE TRAINING Y PRUEBA CON DATOS DE TESTING ***
-    #
-    # knn = KNN(n_neighbors=3)
-    # knn.fit(X_train, labels_train)
-    # Y_pred = knn.predict(X_test)
-    # accuracy = performance(Y_pred, labels_test)
-    #
-    # print("Accuracy = " + str(accuracy))
+    # *** DEFINCION DE DATOS PARA EL TESTING ***
+
+    X_test = X_test[:, s_clean]        # Paso 3: clean
+    X_test = X_test*a + b              # Paso 4: normalizacion
+    X_test = X_test[:, s_sfs]          # Paso 5: SFS
+
+
+    # *** ENTRENAMIENTO CON DATOS DE TRAINING Y PRUEBA CON DATOS DE TESTING ***
+
+    knn = KNN(n_neighbors=3)
+    knn.fit(X_train, labels_train)
+    Y_pred = knn.predict(X_test)
+    accuracy = performance(Y_pred, labels_test)
+
+    print("Accuracy = " + str(accuracy))
 
 
 if __name__ == '__main__':
