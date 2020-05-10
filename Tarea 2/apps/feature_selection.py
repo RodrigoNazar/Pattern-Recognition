@@ -70,8 +70,10 @@ def sfs(data, labels, n_features):
         with open(os.path.join('data/', 'sfs_cache.json'), 'r') as file:
             file_data = json.loads(file.read())
 
-            sameData = np.array_equal(data, np.array(file_data['data']))
-            sameLabels = np.array_equal(labels, np.array(file_data['labels']))
+            sameData = np.array_equal(np.array([int(data.var()), int(data.mean()), int(data.sum()), int(data.min()), int(data.max())]),
+                                      np.array(file_data['data']))
+            sameLabels = np.array_equal(np.array([int(labels.var()), int(labels.mean()), int(labels.sum()), int(labels.min()), int(labels.max())]),
+                                        np.array(file_data['labels']))
             sameN_features = np.array_equal(n_features, np.array(file_data['n_features']))
 
             if sameData and sameLabels and sameN_features:
@@ -119,8 +121,8 @@ def sfs(data, labels, n_features):
 
 
     file_data = {
-        'data': data.tolist(),
-        'labels': labels.tolist(),
+        'data': [int(data.var()), int(data.mean()), int(data.sum()), int(data.min()), int(data.max())],
+        'labels': [int(labels.var()), int(labels.mean()), int(labels.sum()), int(labels.min()), int(labels.max())],
         'n_features': n_features,
         'selected_features': selected_features
     }
