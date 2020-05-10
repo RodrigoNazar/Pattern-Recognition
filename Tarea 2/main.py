@@ -5,9 +5,9 @@ from pybalu.feature_transformation import normalize
 from sklearn.neighbors import KNeighborsClassifier as KNN
 import json
 
-from apps.classifier_performance import performance, confusionMatrix
 from apps.feature_extraction import FeatureExtractor
 from apps.feature_selection import sfs
+from apps.classifier_performance import performance, confusionMatrix
 
 
 # etiqueta = 1 si es rayada y etiqueta = 2 si no

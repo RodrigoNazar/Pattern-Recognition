@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy import ndimage as ndi
+import cv2
 
 from skimage import data
 from skimage.util import img_as_float
@@ -36,3 +37,16 @@ def GaborFeatures(img, sigma=5, frequency=.25, angles=4):
         feats[3*k + 2] = filtered.sum()
 
     return feats
+
+
+def showKernels(sigma=5, frequency=.25, angles=4):
+    kernels = GaborFunctions(sigma, frequency, angles)
+
+    for k, kernel in enumerate(kernels):
+        plt.figure()
+        plt.imshow(kernel, cmap='gray', vmin=kernel.min(), vmax=kernel.max())
+    plt.show()
+
+
+if __name__ == '__main__':
+    showKernels()
