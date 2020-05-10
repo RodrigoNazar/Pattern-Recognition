@@ -77,6 +77,9 @@ def sfs(data, labels, n_features):
             if sameData and sameLabels and sameN_features:
                 print('Se encontraron datos de ese SFS ya calculados!')
                 return file_data['selected_features']
+            else:
+                del file_data
+
 
     start = datetime.now()
 
