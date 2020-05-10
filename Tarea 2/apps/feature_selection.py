@@ -128,7 +128,7 @@ def sfs(data, labels, n_features):
     with open('data/sfs_cache.json', 'w') as file:
         file.write(json.dumps(file_data))
 
-
+    # En mi máquina se demoró 21:46.843292 minutos
     print('Tiempo tomado por el SFS: ', datetime.now() - start)
 
     return np.array(selected_features)
