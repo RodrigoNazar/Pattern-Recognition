@@ -5,6 +5,7 @@ mod = '''
 import numpy as np
 import json
 import os
+from datetime import datetime
 
 
 def jFisher(data, labels):
@@ -77,6 +78,8 @@ def sfs(data, labels, n_features):
                 print('Se encontraron datos de ese SFS ya calculados!')
                 return file_data['selected_features']
 
+    start = datetime.now()
+
     N, M = data.shape
 
     selected_features = []
@@ -121,6 +124,9 @@ def sfs(data, labels, n_features):
 
     with open('data/sfs_cache.json', 'w') as file:
         file.write(json.dumps(file_data))
+
+
+    print('Tiempo tomado por el SFS: ', datetime.now() - start)
 
     return np.array(selected_features)
 

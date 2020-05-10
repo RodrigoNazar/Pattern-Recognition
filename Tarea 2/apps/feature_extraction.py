@@ -8,13 +8,12 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 import json
+from datetime import datetime
 
 from utils.utils import getThresholdImgs, printImg
 from utils.gabor import GaborFeatures
 from utils.haralick import HaralickFeatures
 from utils.lbp import LBPFeatures
-
-from datetime import datetime
 
 
 classes = ['rayada', 'no_rayada']
