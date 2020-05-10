@@ -32,6 +32,8 @@ def main():
     X_test,  labels_test  = np.array(X_test),  np.array(labels_test)
 
 
+    # *** DEFINCION DE DATOS PARA EL TRAINING ***
+
     # Paso 3: Cleaning de los datos
     #   > Training: 8000 x 114
     s_clean = clean(X_train)
@@ -47,7 +49,6 @@ def main():
     #   > Training: 8000 x 50
     s_sfs = sfs(X_train, labels_train, n_features=50, method="fisher", show=True)
     X_train = X_train[:, s_sfs]
-
 
 
     # *** DEFINCION DE DATOS PARA EL TESTING ***
