@@ -32,9 +32,22 @@ def jFisher(data, labels):
     Cw, Cb = np.zeros((M, M)), np.zeros((M, M))
 
     for _class in classes:
+        # Matriz de covarianza Interclase
         Cb_diff = (barZk[_class] - barZ).reshape((M, 1))
         Cb += pk[_class] * np.dot(Cb_diff, Cb_diff.T)
-        print('Cb', Cb.shape)
+
+        # Matriz de covarianza Intraclase
+        class_features = data[indx[_class], :]
+        barZ_class = barZk[_class]
+
+        Ck = np.zeros((M, M))
+        for feature in class_features:
+            Ck_diff = (feature - barZ_class).reshape((M, 1))
+            Ck += np.dot(Ck_diff, Ck_diff.T)
+
+        print(class_features.shape)
+
+        # Ck /=
 
 
     try:
