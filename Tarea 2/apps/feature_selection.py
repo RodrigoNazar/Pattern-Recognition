@@ -4,6 +4,7 @@ mod = '''
 
 import numpy as np
 import json
+import os
 
 
 def jFisher(data, labels):
@@ -59,6 +60,23 @@ def jFisher(data, labels):
 
 
 def sfs(data, labels, n_features):
+
+    print(f'\nRealizando sfs para {n_features} características ...')
+
+    # Si ya se calcularon las características, sólo las consultamos
+    existsData = os.listdir('data/')
+    if 'sfs_cache.json' in existsData:
+        with open(os.path.join('data/', 'sfs_cache.json'), 'r') as file:
+            file_data = json.loads(file.read())
+
+            sameData = np.array_equal(data, np.array(file_data['data']))
+            sameLabels = np.array_equal(labels, np.array(file_data['labels']))
+            sameN_features = np.array_equal(n_features, np.array(file_data['n_features']))
+
+            if sameData and sameLabels and sameN_features:
+                print('Se encontraron datos de ese SFS ya calculados!')
+                return file_data['selected_features']
+
     N, M = data.shape
 
     selected_features = []
