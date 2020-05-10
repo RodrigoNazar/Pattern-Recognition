@@ -111,7 +111,7 @@ def FeatureExtractor(training_path='img/training',
             for img in dir_path:
 
                 img_path = os.path.join(training_path, _class, img)
-                print(f'Procesando {img_path}, imagen número {i}')
+                print(f'Procesando {img_path}, imagen número {i}/10000')
 
                 features = FeatureComputator(img_path)
                 label = 1 if _class == 'rayada' else 2
@@ -121,12 +121,11 @@ def FeatureExtractor(training_path='img/training',
                 i += 1
 
             # Características de las imágenes de testing
-            i = 1
             dir_path = os.listdir(os.path.join(testing_path, _class))
             for img in dir_path:
 
                 img_path = os.path.join(testing_path, _class, img)
-                print(f'Procesando {img_path}, imagen número {i}')
+                print(f'Procesando {img_path}, imagen número {i}/10000')
 
                 features = FeatureComputator(img_path)
                 label = 1 if _class == 'rayada' else 2
