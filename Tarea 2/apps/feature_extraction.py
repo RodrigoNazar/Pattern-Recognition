@@ -16,9 +16,10 @@ from utils.haralick import HaralickFeatures
 from utils.lbp import LBPFeatures
 
 
+# Rutina de creación del vector de nombres
 classes = ['rayada', 'no_rayada']
 feature_names = []
-for channel in ('Red ', 'Green ', 'Blue '):
+for channel in ('Red ', 'Green ', 'Blue '): # Para cada canal
     # LBP features
     feature_names += [channel + 'lpb' + str(i) for i in range(59)]
 
@@ -36,6 +37,9 @@ for channel in ('Red ', 'Green ', 'Blue '):
 
 
 def FeatureComputator(img_path):
+    '''
+    Calcula el vector de característica por imagen
+    '''
     img = cv2.imread(img_path)
 
     # Obtenemos los umbrales de cada canal
@@ -79,6 +83,18 @@ def FeatureComputator(img_path):
 def FeatureExtractor(training_path='img/training',
                      testing_path='img/testing',
                      classes=classes):
+        '''
+        Genera el JSON de las características de cada imagen.
+        Este tiene la siguiente estructura:
+        {
+            'feature_names': Lista de nombres de las features,
+            'feature_values_train': matriz de features de training,
+            'labels_train': Vector de etiquetas de cada una de las muestras de training,
+            'feature_values_test': matriz de features de testing,
+            'labels_test': Vector de etiquetas de cada una de las muestras de testing,
+
+        }
+        '''
 
         print('\nObteniendo las características ...')
 
@@ -101,18 +117,19 @@ def FeatureExtractor(training_path='img/training',
         }
 
         start = datetime.now()
-
+        i = 1
         for _class in classes:
 
             # Características de las imágenes de training
-            i = 1
             dir_path = os.listdir(os.path.join(training_path, _class))
             for img in dir_path:
 
                 img_path = os.path.join(training_path, _class, img)
                 print(f'Procesando {img_path}, imagen número {i}/10000')
 
+                # Calculamos el vector de características
                 features = FeatureComputator(img_path)
+                # Etiqueta de la muestra
                 label = 1 if _class == 'rayada' else 2
 
                 data['feature_values_train'].append(features)
@@ -126,14 +143,15 @@ def FeatureExtractor(training_path='img/training',
                 img_path = os.path.join(testing_path, _class, img)
                 print(f'Procesando {img_path}, imagen número {i}/10000')
 
+                # Calculamos el vector de características
                 features = FeatureComputator(img_path)
+                # Etiqueta de la muestra
                 label = 1 if _class == 'rayada' else 2
 
                 data['feature_values_test'].append(features)
                 data['labels_test'].append(label)
 
                 i += 1
-
 
         # Finalmente guardamos los datos en un archivo
         with open('data/paredes_data.json', 'w') as json_file:

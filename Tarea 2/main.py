@@ -9,6 +9,7 @@ from apps.feature_extraction import FeatureExtractor
 from apps.feature_selection import sfs
 
 
+# etiqueta = 1 si es rayada y etiqueta = 2 si no
 CLASSES = ['rayada', 'no_rayada']
 
 

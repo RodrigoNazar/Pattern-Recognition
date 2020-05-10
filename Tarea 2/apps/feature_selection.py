@@ -10,7 +10,7 @@ from datetime import datetime
 
 def jFisher(data, labels):
     '''
-    Retorna los índices de las características elegidas
+    Calcula el factor de separabilidad J de Fisher
     '''
     if len(data.shape) == 2:
         N, M = data.shape
@@ -49,18 +49,21 @@ def jFisher(data, labels):
             Ck += np.dot(Ck_diff, Ck_diff.T)
 
         Ck /= class_features.shape[0] - 1
-
         Cw += pk[_class] * Ck
-
 
     try:
         return np.trace(np.linalg.inv(Cw).dot(Cb))
 
-    except np.linalg.LinAlgError: # Si la matriz es no invertible
+    except np.linalg.LinAlgError: # Si la matriz Cw es no invertible
         return - np.inf
 
 
 def sfs(data, labels, n_features):
+    '''
+    Sfs evaluado con el factor de separabilidad J de Fisher
+
+    Retorna: los índices de las features seleccionadas por SFS
+    '''
 
     print(f'\nRealizando sfs para {n_features} características ...')
 
@@ -78,55 +81,55 @@ def sfs(data, labels, n_features):
 
             if sameData and sameLabels and sameN_features:
                 print('Se encontraron datos de ese SFS ya calculados!')
-                return file_data['selected_features']
+                return np.array(file_data['selected_features'])
             else:
                 del file_data
 
-
+    # Si no se ha calculado previamente, las calculamos ahora
     start = datetime.now()
 
     N, M = data.shape
 
-    selected_features = []
-    remaining_features = [i for i in range(M)]
-    current_scores = {}
+    selected_features = [] # Features a obtener
+    remaining_features = [i for i in range(M)] # Features restantes
+    current_scores = {} # Diccionario que ayuda a la extracción de la mejor característica según J
 
-    TOLERANCE = .0001
+    TOLERANCE = .0001 # Tolerancia entre las iteraciones, si J no incrementa en este valor, se termina sfs
 
     last_J = - np.inf
 
     for _ in range(n_features):
+
+        # Armamos el diccionario con el valor de J y la feature respectiva
         for inx, feature in enumerate(remaining_features):
             features = selected_features + [feature]
-            # print(features)
-            # print(data[:, features].shape)
             current_scores[jFisher(data[:, features], labels)] = feature
 
+        # Seleccionamos la feature con el mejor desempeño
         best = current_scores[max(current_scores.keys())]
         current_J = max(current_scores.keys())
 
+        # La agregamos a las features seleccionadas y la quitamos de las restantes
         selected_features.append(best)
         remaining_features.remove(best)
         current_scores = {}
 
-        # print(best, abs(last_J - current_J))
         print(len(selected_features), 'características escogidas...')
 
+        # Si el incremento en J es menor que la tolerancia, terminamos SFS
         if abs(last_J - current_J) < TOLERANCE:
             print('Se superó la tolerancia, delta = ', abs(last_J - current_J))
             break
         else:
             last_J = current_J
 
-
-
+    # Información de cache
     file_data = {
         'data': [int(data.var()), int(data.mean()), int(data.sum()), int(data.min()), int(data.max())],
         'labels': [int(labels.var()), int(labels.mean()), int(labels.sum()), int(labels.min()), int(labels.max())],
         'n_features': n_features,
         'selected_features': selected_features
     }
-
     with open('data/sfs_cache.json', 'w') as file:
         file.write(json.dumps(file_data))
 
