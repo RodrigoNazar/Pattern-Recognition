@@ -3,6 +3,7 @@ mod = '''
 '''
 
 import numpy as np
+import json
 
 
 def jFisher(data, labels):
@@ -69,7 +70,7 @@ def sfs(data, labels, n_features):
             features = selected_features + [feature]
             print(features)
             # print(data[:, features].shape)
-            current_scores[jFisher(data[:, features], labels)] = inx
+            current_scores[jFisher(data[:, features], labels)] = feature
 
         best = current_scores[max(current_scores.keys())]
         print(best, max(current_scores.keys()))
@@ -77,6 +78,16 @@ def sfs(data, labels, n_features):
         selected_features.append(best)
         remaining_features.remove(best)
         current_scores = {}
+
+    file_data = {
+        'data': data.tolist(),
+        'labels': labels.tolist(),
+        'n_features': n_features,
+        'selected_features': selected_features
+    }
+
+    with open('data/sfs_cache.json', 'w') as file:
+        file.write(json.dumps(file_data))
 
     return np.array(selected_features)
 
