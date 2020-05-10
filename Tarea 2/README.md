@@ -86,20 +86,27 @@ Así, se podrá usar la función de correcta manera
 
 * ```apps```: Se encuentran las distintas aplicaciones desarrolladas para cada uno de los requerimientos de la tarea.
 
-  * ```feature_setup.py```: Procesa las imágenes de la ruta ```img``` y obtiene sus características (tanto como de training, como testing), para guardarlas en ```data```.
+  * ```feature_extraction.py```: Procesa las imágenes de la ruta ```img``` y obtiene sus características (tanto como de training, como testing), para guardarlas en ```data```.
 
-  * ```testing.py```: Ejecuta el clasificador de cada una de las imágenes de testing sobre las de training, consultando la información guardada en ```data```. También contiene el test de combinaciones de distintos momentos de hu.
+  * ```feature_selection.py```: Contiene el código del algoritmo SFS para la selección de características.
 
-  * ```statistics.py```: Módulo que muestra estadísticas de desempeño del algoritmo utilizado.
+  * ```classifier_performance.py```: Módulo que muestra estadísticas de desempeño del clasificador utilizado.
 
-* ```data```: Directorio en el que se guarda la información de las características obtenidas de las imágenes de testing y training.
+* ```data```: Directorio en el que se guardan datos del programa, para no tener que calcularlos todo el tiempo.
+  * ```paredes_data.json```: Características de los datos de testing y training.
+
+  * ```sfs_cache.json```: Datos de las características seleccionadas por sfs.
+
+  * ```reconocedor.json```: Datos para el módulo ```reconocedor.py```.
 
 * ```img```: Directorio en el que se encuentran las imágenes.
 
 * ```utils```: Directorio de útiles desarrollados para la tarea.
 
   * ```lbp.py```: Extracción de características de LBP.
+
   * ```haralick.py```: Extracción de características de Haralick.
+
   * ```gabor.py```: Extracción de características de Gabor.
 
   * ```utils.py```: útiles generales para el procesamiento de imágenes
