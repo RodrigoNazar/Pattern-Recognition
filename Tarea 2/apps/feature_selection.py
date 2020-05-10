@@ -59,8 +59,12 @@ def jFisher(data, labels, n_features):
 
 
 def sfs(data, labels, n_features):
-    selected_features = []
+    N, M = data.shape
 
+    selected_features = []
+    remaining_feats = [i for i in range(M)]
+
+    print(N, M)
 
 
     for _ in range(n_features):
