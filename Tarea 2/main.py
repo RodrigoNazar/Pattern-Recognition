@@ -17,13 +17,13 @@ def main():
     #   > 357 características por imagen
     features = FeatureExtractor(classes=CLASSES)
 
+
     # Paso 2: Definición de datos training - testing
     X_train, labels_train = features['feature_values_train'], features['labels_train']
     X_test,  labels_test  = features['feature_values_test'],  features['labels_test']
 
-    print(len(X_train))
-
     X_train = np.array(X_train)
+
 
     for i in X_train:
         if len(i) != 357:

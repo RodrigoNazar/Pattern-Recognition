@@ -71,17 +71,9 @@ def FeatureComputator(img_path):
     features_G = np.concatenate((lbp_G, haralick_G, gabor_G))
     features_B = np.concatenate((lbp_B, haralick_B, gabor_B))
 
-    out = np.concatenate((features_R, features_G, features_B)).tolist()
-
-    if len(features_R) != len(features_R) != len(features_R) != 119:
-        print('features malas!!!')
-
-    if len(out) != 357:
-        print('out malo!!!')
-
 
     # Vector final de features, de lago (59 + 48 + 12)*3 = 357
-    return out
+    return np.concatenate((features_R, features_G, features_B)).tolist()
 
 
 
@@ -95,7 +87,7 @@ def FeatureExtractor(training_path='img/training',
         existsData = os.listdir('data/')
         if 'paredes_data.json' in existsData:
             print('Se encontraron características ya calculadas!')
-            with open(os.path.join('data/', existsData[0]), 'r') as file:
+            with open(os.path.join('data/', 'paredes_data.json'), 'r') as file:
                 return json.loads(file.read())
 
         # Si no se han calculado las características, lo hacemos
@@ -113,9 +105,8 @@ def FeatureExtractor(training_path='img/training',
 
         for _class in classes:
 
-            i = 0
-
             # Características de las imágenes de training
+            i = 1
             dir_path = os.listdir(os.path.join(training_path, _class))
             for img in dir_path:
 
@@ -129,12 +120,8 @@ def FeatureExtractor(training_path='img/training',
                 data['labels_train'].append(label)
                 i += 1
 
-                if i == 5:
-                    break
-
-            i = 0
-
             # Características de las imágenes de testing
+            i = 1
             dir_path = os.listdir(os.path.join(testing_path, _class))
             for img in dir_path:
 
@@ -149,8 +136,6 @@ def FeatureExtractor(training_path='img/training',
 
                 i += 1
 
-                if i == 5:
-                    break
 
         # Finalmente guardamos los datos en un archivo
         with open('data/paredes_data.json', 'w') as json_file:

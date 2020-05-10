@@ -14,7 +14,4 @@ def LBPFeatures(img):
     n_bins = 59
     hist, _ = np.histogram(patterns.ravel(), density=True, bins=n_bins, range=(0, n_bins))
 
-    if len(hist) != 59:
-        print('LBP malo!!')
-
     return hist

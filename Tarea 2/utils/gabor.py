@@ -35,7 +35,4 @@ def GaborFeatures(img, sigma=5, frequency=.25, angles=4):
         feats[3*k + 1] = filtered.var()
         feats[3*k + 2] = filtered.sum()
 
-    if feats.shape != (12,):
-        print('Gabor malo!!!')
-        
     return feats

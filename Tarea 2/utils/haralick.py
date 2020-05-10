@@ -14,9 +14,4 @@ def HaralickFeatures(img, directions=8):
     energy = greycoprops(result, 'energy')[0]
     correlation = greycoprops(result, 'correlation')[0]
 
-    out = np.concatenate((contrast, dissimilarity, homogeneity, ASM, energy, correlation))
-
-    if out.shape != (48,):
-        print('Haralick malo!!')
-
-    return out
+    return np.concatenate((contrast, dissimilarity, homogeneity, ASM, energy, correlation))
