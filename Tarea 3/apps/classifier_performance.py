@@ -14,7 +14,7 @@ def confusionMatrix(Y_pred, labels_test):
     Función basada en la solución mostrada en:
     https://stackoverflow.com/questions/35572000/how-can-i-plot-a-confusion-matrix
     '''
-    df_cm = pd.DataFrame(confusion_matrix(Y_pred, labels_test), ['rayada', 'no rayada'], ['rayada', 'no rayada'])
+    df_cm = pd.DataFrame(confusion_matrix(Y_pred, labels_test))
     plt.figure(figsize=(10,7))
     sn.set(font_scale=1.4)
     sn.heatmap(df_cm, annot=True, annot_kws={'size': 20}, cmap='YlGnBu', fmt='g')

@@ -10,8 +10,14 @@ from apps.feature_selection import sfs
 from apps.classifier_performance import performance, confusionMatrix
 
 
-# etiqueta = 1 si es rayada y etiqueta = 2 si no
-CLASSES = ['rayada', 'no_rayada']
+'''
+Distribución de Clases:
+
+    class_0 -> Normal
+    class_1 -> Neumonia
+    class_2 -> COVID19
+'''
+CLASSES = ['class_0', 'class_1', 'class_2']
 
 
 def main():

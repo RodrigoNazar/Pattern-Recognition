@@ -1,9 +1,9 @@
 from setuptools import setup
 
 setup(
-    name='Tarea 2 - Patrones',
+    name='Tarea 3 - Patrones',
     version='1.0',
-    description='Código de la tarea número 1 del curso de Reconocimiento' +
+    description='Código de la tarea número 3 del curso de Reconocimiento' +
                 ' de Patrones',
     author='Rodrigo Nazar Meier',
     author_email='rnazar@uc.cl',

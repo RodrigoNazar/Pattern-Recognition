@@ -17,7 +17,7 @@ from utils.lbp import LBPFeatures
 
 
 # Rutina de creación del vector de nombres
-classes = ['rayada', 'no_rayada']
+classes = ['class_0', 'class_1', 'class_2']
 feature_names = []
 for channel in ('Red ', 'Green ', 'Blue '): # Para cada canal
     # LBP features
@@ -40,7 +40,7 @@ def FeatureComputator(img):
     '''
     Calcula el vector de característica por imagen
     '''
-    
+
     # Obtenemos los umbrales de cada canal
     img_R, img_G, img_B = cv2.split(img)
 
@@ -72,6 +72,10 @@ def FeatureComputator(img):
     features_R = np.concatenate((lbp_R, haralick_R, gabor_R))
     features_G = np.concatenate((lbp_G, haralick_G, gabor_G))
     features_B = np.concatenate((lbp_B, haralick_B, gabor_B))
+
+    # features_R = np.concatenate((lbp_R, haralick_R))
+    # features_G = np.concatenate((lbp_G, haralick_G))
+    # features_B = np.concatenate((lbp_B, haralick_B))
 
 
     # Vector final de features, de lago (59 + 48 + 12)*3 = 357
@@ -115,6 +119,12 @@ def FeatureExtractor(training_path='img/training',
 
         }
 
+        labels = {
+            'class_0': 0,
+            'class_1': 1,
+            'class_2': 2
+        }
+
         start = datetime.now()
         i = 1
         for _class in classes:
@@ -126,12 +136,13 @@ def FeatureExtractor(training_path='img/training',
                 img_path = os.path.join(training_path, _class, img)
                 img = cv2.imread(img_path)
 
-                print(f'Procesando {img_path}, imagen número {i}/10000')
+                print(f'Procesando {img_path}, imagen número {i}/10000', end='\r')
 
                 # Calculamos el vector de características
                 features = FeatureComputator(img)
                 # Etiqueta de la muestra
-                label = 1 if _class == 'rayada' else 2
+
+                label = labels[_class]
 
                 data['feature_values_train'].append(features)
                 data['labels_train'].append(label)
@@ -143,12 +154,12 @@ def FeatureExtractor(training_path='img/training',
 
                 img_path = os.path.join(testing_path, _class, img)
                 img = cv2.imread(img_path)
-                print(f'Procesando {img_path}, imagen número {i}/10000')
+                print(f'Procesando {img_path}, imagen número {i}/10000', end='\r')
 
                 # Calculamos el vector de características
                 features = FeatureComputator(img)
                 # Etiqueta de la muestra
-                label = 1 if _class == 'rayada' else 2
+                label = labels[_class]
 
                 data['feature_values_test'].append(features)
                 data['labels_test'].append(label)
