@@ -73,10 +73,6 @@ def FeatureComputator(img):
     features_G = np.concatenate((lbp_G, haralick_G, gabor_G))
     features_B = np.concatenate((lbp_B, haralick_B, gabor_B))
 
-    # features_R = np.concatenate((lbp_R, haralick_R))
-    # features_G = np.concatenate((lbp_G, haralick_G))
-    # features_B = np.concatenate((lbp_B, haralick_B))
-
 
     # Vector final de features, de lago (59 + 48 + 12)*3 = 357
     return np.concatenate((features_R, features_G, features_B)).tolist()
@@ -88,35 +84,28 @@ def FeatureExtractor(training_path='img/training',
                      classes=classes):
         '''
         Genera el JSON de las características de cada imagen.
-        Este tiene la siguiente estructura:
-        {
-            'feature_names': Lista de nombres de las features,
-            'feature_values_train': matriz de features de training,
-            'labels_train': Vector de etiquetas de cada una de las muestras de training,
-            'feature_values_test': matriz de features de testing,
-            'labels_test': Vector de etiquetas de cada una de las muestras de testing,
-
-        }
+        Genera el objeto data.
         '''
 
         print('\nObteniendo las características ...')
 
         # Si ya se calcularon las características, sólo las consultamos
         existsData = os.listdir('data/')
-        if 'paredes_data.json' in existsData:
+        if 'patches_data.json' in existsData:
             print('Se encontraron características ya calculadas!')
-            with open(os.path.join('data/', 'paredes_data.json'), 'r') as file:
+            with open(os.path.join('data/', 'patches_data.json'), 'r') as file:
                 return json.loads(file.read())
 
         # Si no se han calculado las características, lo hacemos
         print('Calculando las características de las imágenes:\n')
         data = {
             'feature_names': feature_names,
-            'feature_values_train': [],
-            'labels_train': [],
-            'feature_values_test': [],
-            'labels_test': [],
-
+            'feature_values_train': [], # Valores de las features
+            'labels_train': [],         # Etiqueta de la clase
+            'files_train': [],          # Path de la imagen
+            'feature_values_test': [],  # Valores de las features
+            'labels_test': [],          # Etiqueta de la clase
+            'files_test': []            # Path de la imagen
         }
 
         labels = {
@@ -136,16 +125,16 @@ def FeatureExtractor(training_path='img/training',
                 img_path = os.path.join(training_path, _class, img)
                 img = cv2.imread(img_path)
 
-                print(f'Procesando {img_path}, imagen número {i}/10000', end='\r')
+                print(f'Procesando {img_path}, imagen número {i}/6300', end='\r')
 
                 # Calculamos el vector de características
                 features = FeatureComputator(img)
                 # Etiqueta de la muestra
-
                 label = labels[_class]
 
                 data['feature_values_train'].append(features)
                 data['labels_train'].append(label)
+                data['files_train'].append(img_path)
                 i += 1
 
             # Características de las imágenes de testing
@@ -154,7 +143,7 @@ def FeatureExtractor(training_path='img/training',
 
                 img_path = os.path.join(testing_path, _class, img)
                 img = cv2.imread(img_path)
-                print(f'Procesando {img_path}, imagen número {i}/10000', end='\r')
+                print(f'Procesando {img_path}, imagen número {i}/6300', end='\r')
 
                 # Calculamos el vector de características
                 features = FeatureComputator(img)
@@ -163,11 +152,11 @@ def FeatureExtractor(training_path='img/training',
 
                 data['feature_values_test'].append(features)
                 data['labels_test'].append(label)
-
+                data['files_test'].append(img_path)
                 i += 1
 
         # Finalmente guardamos los datos en un archivo
-        with open('data/paredes_data.json', 'w') as json_file:
+        with open('data/patches_data.json', 'w') as json_file:
             json_file.write(json.dumps(data))
 
         # En mi máquina se demoró 38:40.71 minutos
