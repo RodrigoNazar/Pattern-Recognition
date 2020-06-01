@@ -56,12 +56,14 @@ def main():
     # print(json.dumps(classifier1, indent=2))
 
     # Ejecución de las estrategias para el clasificador número 2
+
+    groups = c2.compute_groups()
     classifier2 = {
-        'strategy01': c2.strategy01(X_train, labels_train, X_test, labels_test),
-        'strategy02': c2.strategy02(X_train, labels_train, X_test, labels_test),
-        'strategy03': c2.strategy03(X_train, labels_train, X_test, labels_test),
-        'strategy04': c2.strategy04(X_train, labels_train, X_test, labels_test),
-        'strategy05': c2.strategy05(X_train, labels_train, X_test, labels_test),
+        'strategy01': c2.strategy01(X_train, labels_train, X_test, labels_test, groups),
+        'strategy02': c2.strategy02(X_train, labels_train, X_test, labels_test, groups),
+        'strategy03': c2.strategy03(X_train, labels_train, X_test, labels_test, groups),
+        'strategy04': c2.strategy04(X_train, labels_train, X_test, labels_test, groups),
+        'strategy05': c2.strategy05(X_train, labels_train, X_test, labels_test, groups),
     }
     # print(json.dumps(classifier2, indent=2))
 
