@@ -67,6 +67,11 @@ def get_class_by_name(name):
 # Estrategias
 
 def strategy01(X_train, labels_train, X_test, labels_test, groups):
+    '''
+    Estrategia número 1 para el segundo clasificador
+    '''
+
+    print('\nEjecutando la estrategia número 1 del segundo clasificador...')
 
     # Paso 3: Cleaning de los datos
     #   > Training: 8000 x 250
@@ -81,7 +86,7 @@ def strategy01(X_train, labels_train, X_test, labels_test, groups):
     # Paso 5: Selección de características
     # Acá se utilizó el criterio de fisher
     #   > Training: 8000 x 50
-    s_sfs = sfs(X_train, labels_train, n_features=12, method="fisher")
+    s_sfs = sfs(X_train, labels_train, n_features=50, method="fisher")
     X_train = X_train[:, s_sfs]
 
 
@@ -114,6 +119,11 @@ def strategy01(X_train, labels_train, X_test, labels_test, groups):
 
 
 def strategy02(X_train, labels_train, X_test, labels_test, groups):
+    '''
+    Estrategia número 2 para el segundo clasificador
+    '''
+
+    print('\nEjecutando la estrategia número 2 del segundo clasificador...')
 
     # Paso 3: Cleaning de los datos
     #   > Training: 8000 x 250
@@ -128,7 +138,7 @@ def strategy02(X_train, labels_train, X_test, labels_test, groups):
     # Paso 5: Selección de características
     # Acá se utilizó el criterio de fisher
     #   > Training: 8000 x 50
-    s_sfs = sfs(X_train, labels_train, n_features=12, method="fisher")
+    s_sfs = sfs(X_train, labels_train, n_features=10, method="fisher")
     X_train = X_train[:, s_sfs]
 
 
@@ -140,7 +150,7 @@ def strategy02(X_train, labels_train, X_test, labels_test, groups):
 
     # *** ENTRENAMIENTO CON DATOS DE TRAINING Y PRUEBA CON DATOS DE TESTING ***
 
-    knn = KNN(n_neighbors=3)
+    knn = KNN(n_neighbors=5)
     knn.fit(X_train, labels_train)
 
     correct = 0
@@ -161,6 +171,11 @@ def strategy02(X_train, labels_train, X_test, labels_test, groups):
 
 
 def strategy03(X_train, labels_train, X_test, labels_test, groups):
+    '''
+    Estrategia número 3 para el segundo clasificador
+    '''
+
+    print('\nEjecutando la estrategia número 3 del segundo clasificador...')
 
     # Paso 3: Cleaning de los datos
     #   > Training: 8000 x 250
@@ -175,7 +190,7 @@ def strategy03(X_train, labels_train, X_test, labels_test, groups):
     # Paso 5: Selección de características
     # Acá se utilizó el criterio de fisher
     #   > Training: 8000 x 50
-    s_sfs = sfs(X_train, labels_train, n_features=12, method="fisher")
+    s_sfs = sfs(X_train, labels_train, n_features=3, method="fisher")
     X_train = X_train[:, s_sfs]
 
 
@@ -208,6 +223,11 @@ def strategy03(X_train, labels_train, X_test, labels_test, groups):
 
 
 def strategy04(X_train, labels_train, X_test, labels_test, groups):
+    '''
+    Estrategia número 4 para el segundo clasificador
+    '''
+
+    print('\nEjecutando la estrategia número 4 del segundo clasificador...')
 
     # Paso 3: Cleaning de los datos
     #   > Training: 8000 x 250
@@ -222,7 +242,7 @@ def strategy04(X_train, labels_train, X_test, labels_test, groups):
     # Paso 5: Selección de características
     # Acá se utilizó el criterio de fisher
     #   > Training: 8000 x 50
-    s_sfs = sfs(X_train, labels_train, n_features=12, method="fisher")
+    s_sfs = sfs(X_train, labels_train, n_features=26, method="fisher")
     X_train = X_train[:, s_sfs]
 
 
@@ -234,7 +254,7 @@ def strategy04(X_train, labels_train, X_test, labels_test, groups):
 
     # *** ENTRENAMIENTO CON DATOS DE TRAINING Y PRUEBA CON DATOS DE TESTING ***
 
-    knn = KNN(n_neighbors=3)
+    knn = KNN(n_neighbors=5)
     knn.fit(X_train, labels_train)
 
     correct = 0
@@ -255,6 +275,11 @@ def strategy04(X_train, labels_train, X_test, labels_test, groups):
 
 
 def strategy05(X_train, labels_train, X_test, labels_test, groups):
+    '''
+    Estrategia número 5 para el segundo clasificador
+    '''
+
+    print('\nEjecutando la estrategia número 5 del segundo clasificador...')
 
     # Paso 3: Cleaning de los datos
     #   > Training: 8000 x 250
@@ -269,7 +294,7 @@ def strategy05(X_train, labels_train, X_test, labels_test, groups):
     # Paso 5: Selección de características
     # Acá se utilizó el criterio de fisher
     #   > Training: 8000 x 50
-    s_sfs = sfs(X_train, labels_train, n_features=12, method="fisher")
+    s_sfs = sfs(X_train, labels_train, n_features=7, method="fisher")
     X_train = X_train[:, s_sfs]
 
 
@@ -281,7 +306,7 @@ def strategy05(X_train, labels_train, X_test, labels_test, groups):
 
     # *** ENTRENAMIENTO CON DATOS DE TRAINING Y PRUEBA CON DATOS DE TESTING ***
 
-    knn = KNN(n_neighbors=3)
+    knn = KNN(n_neighbors=5)
     knn.fit(X_train, labels_train)
 
     correct = 0
