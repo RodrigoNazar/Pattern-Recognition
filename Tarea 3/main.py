@@ -57,15 +57,15 @@ def main():
 
     # Ejecución de las estrategias para el clasificador número 2
 
-    groups = c2.compute_groups()
+    groups = c2.compute_groups() # Objeto que ordena los patches por muestra, para su procesamiento en conjunto
     classifier2 = {
         'strategy01': c2.strategy01(X_train, labels_train, X_test, labels_test, groups),
-        # 'strategy02': c2.strategy02(X_train, labels_train, X_test, labels_test, groups),
-        # 'strategy03': c2.strategy03(X_train, labels_train, X_test, labels_test, groups),
-        # 'strategy04': c2.strategy04(X_train, labels_train, X_test, labels_test, groups),
-        # 'strategy05': c2.strategy05(X_train, labels_train, X_test, labels_test, groups),
+        'strategy02': c2.strategy02(X_train, labels_train, X_test, labels_test, groups),
+        'strategy03': c2.strategy03(X_train, labels_train, X_test, labels_test, groups),
+        'strategy04': c2.strategy04(X_train, labels_train, X_test, labels_test, groups),
+        'strategy05': c2.strategy05(X_train, labels_train, X_test, labels_test, groups)
     }
-    # print(json.dumps(classifier2, indent=2))
+    print(json.dumps(classifier2, indent=2))
 
 
 
