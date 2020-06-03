@@ -46,14 +46,14 @@ def main():
     X_test,  labels_test  = np.array(X_test),  np.array(labels_test)
 
     # Ejecución de las estrategias para el clasificador número 1
-    # classifier1 = {
-    #     'strategy01': c1.strategy01(X_train, labels_train, X_test, labels_test),
-    #     'strategy02': c1.strategy02(X_train, labels_train, X_test, labels_test),
-    #     'strategy03': c1.strategy03(X_train, labels_train, X_test, labels_test),
-    #     'strategy04': c1.strategy04(X_train, labels_train, X_test, labels_test),
-    #     'strategy05': c1.strategy05(X_train, labels_train, X_test, labels_test),
-    # }
-    # print(json.dumps(classifier1, indent=2))
+    classifier1 = {
+        'strategy01': c1.strategy01(X_train, labels_train, X_test, labels_test),
+        'strategy02': c1.strategy02(X_train, labels_train, X_test, labels_test),
+        'strategy03': c1.strategy03(X_train, labels_train, X_test, labels_test),
+        'strategy04': c1.strategy04(X_train, labels_train, X_test, labels_test),
+        'strategy05': c1.strategy05(X_train, labels_train, X_test, labels_test),
+    }
+    print(json.dumps(classifier1, indent=2))
 
     # Ejecución de las estrategias para el clasificador número 2
 
