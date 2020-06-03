@@ -60,10 +60,10 @@ def main():
     groups = c2.compute_groups()
     classifier2 = {
         'strategy01': c2.strategy01(X_train, labels_train, X_test, labels_test, groups),
-        'strategy02': c2.strategy02(X_train, labels_train, X_test, labels_test, groups),
-        'strategy03': c2.strategy03(X_train, labels_train, X_test, labels_test, groups),
-        'strategy04': c2.strategy04(X_train, labels_train, X_test, labels_test, groups),
-        'strategy05': c2.strategy05(X_train, labels_train, X_test, labels_test, groups),
+        # 'strategy02': c2.strategy02(X_train, labels_train, X_test, labels_test, groups),
+        # 'strategy03': c2.strategy03(X_train, labels_train, X_test, labels_test, groups),
+        # 'strategy04': c2.strategy04(X_train, labels_train, X_test, labels_test, groups),
+        # 'strategy05': c2.strategy05(X_train, labels_train, X_test, labels_test, groups),
     }
     # print(json.dumps(classifier2, indent=2))
 
