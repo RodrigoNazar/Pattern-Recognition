@@ -99,3 +99,8 @@ def segmentate(img):
 def extractSubmatrix(matrix, upperPoint, downerPoint):
     return np.array([ x[upperPoint[0]:downerPoint[0]]
             for x in matrix[upperPoint[1]:downerPoint[1]]])
+
+
+def saveJson(name, data):
+    with open('data/' + name + '.json', 'w') as file:
+        file.write(json.dumps(data, indent=2))
