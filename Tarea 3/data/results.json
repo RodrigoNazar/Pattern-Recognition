@@ -1,44 +1,44 @@
 {
   "classifier1": {
     "strategy01": {
-      "Nearest Neighbors 1": 0.8634920634920635,
-      "Nearest Neighbors 3": 0.873015873015873,
-      "Nearest Neighbors 5": 0.8793650793650793,
-      "Linear SVM": 0.9317460317460318,
-      "RBF SVM": 0.3380952380952381,
-      "Neural Net": 0.946031746031746
+      "Nearest Neighbors 1": 86.34920634920636,
+      "Nearest Neighbors 3": 87.3015873015873,
+      "Nearest Neighbors 5": 87.93650793650794,
+      "Linear SVM": 93.17460317460318,
+      "RBF SVM": 33.80952380952381,
+      "Neural Net": 94.28571428571428
     },
     "strategy02": {
-      "Nearest Neighbors 1": 0.8142857142857143,
-      "Nearest Neighbors 3": 0.8087301587301587,
-      "Nearest Neighbors 5": 0.8119047619047619,
-      "Linear SVM": 0.9126984126984127,
-      "RBF SVM": 0.5404761904761904,
-      "Neural Net": 0.9253968253968254
+      "Nearest Neighbors 1": 81.42857142857143,
+      "Nearest Neighbors 3": 80.87301587301587,
+      "Nearest Neighbors 5": 81.19047619047619,
+      "Linear SVM": 91.26984126984127,
+      "RBF SVM": 54.047619047619044,
+      "Neural Net": 92.6984126984127
     },
     "strategy03": {
-      "Nearest Neighbors 1": 0.8611111111111112,
-      "Nearest Neighbors 3": 0.8706349206349207,
-      "Nearest Neighbors 5": 0.8785714285714286,
-      "Linear SVM": 0.9198412698412698,
-      "RBF SVM": 0.3484126984126984,
-      "Neural Net": 0.9365079365079365
+      "Nearest Neighbors 1": 86.11111111111111,
+      "Nearest Neighbors 3": 87.06349206349206,
+      "Nearest Neighbors 5": 87.85714285714286,
+      "Linear SVM": 91.98412698412697,
+      "RBF SVM": 34.84126984126984,
+      "Neural Net": 93.17460317460318
     },
     "strategy04": {
-      "Nearest Neighbors 1": 0.8674603174603175,
-      "Nearest Neighbors 3": 0.8833333333333333,
-      "Nearest Neighbors 5": 0.9,
-      "Linear SVM": 0.9238095238095239,
-      "RBF SVM": 0.34365079365079365,
-      "Neural Net": 0.9325396825396826
+      "Nearest Neighbors 1": 86.74603174603175,
+      "Nearest Neighbors 3": 88.33333333333333,
+      "Nearest Neighbors 5": 90.0,
+      "Linear SVM": 92.38095238095238,
+      "RBF SVM": 34.36507936507937,
+      "Neural Net": 92.85714285714286
     },
     "strategy05": {
-      "Nearest Neighbors 1": 0.8142857142857143,
-      "Nearest Neighbors 3": 0.8087301587301587,
-      "Nearest Neighbors 5": 0.8119047619047619,
-      "Linear SVM": 0.9126984126984127,
-      "RBF SVM": 0.5404761904761904,
-      "Neural Net": 0.9246031746031746
+      "Nearest Neighbors 1": 81.42857142857143,
+      "Nearest Neighbors 3": 80.87301587301587,
+      "Nearest Neighbors 5": 81.19047619047619,
+      "Linear SVM": 91.26984126984127,
+      "RBF SVM": 54.047619047619044,
+      "Neural Net": 93.01587301587301
     }
   },
   "classifier2": {
@@ -56,7 +56,7 @@
       "Nearest Neighbors 5": 86.5079365079365,
       "Linear SVM": 91.26984126984127,
       "RBF SVM": 58.73015873015873,
-      "Neural Net": 92.06349206349206
+      "Neural Net": 94.44444444444444
     },
     "strategy03": {
       "Nearest Neighbors 1": 89.68253968253968,
@@ -64,7 +64,7 @@
       "Nearest Neighbors 5": 90.47619047619048,
       "Linear SVM": 92.85714285714286,
       "RBF SVM": 34.12698412698413,
-      "Neural Net": 96.03174603174604
+      "Neural Net": 95.23809523809524
     },
     "strategy04": {
       "Nearest Neighbors 1": 93.65079365079364,
@@ -80,7 +80,7 @@
       "Nearest Neighbors 5": 86.5079365079365,
       "Linear SVM": 91.26984126984127,
       "RBF SVM": 58.73015873015873,
-      "Neural Net": 93.65079365079364
+      "Neural Net": 94.44444444444444
     }
   }
 }

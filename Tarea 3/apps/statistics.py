@@ -63,19 +63,18 @@ def getStatistics():
 
         bars.append(percentages)
 
-    print(list(zip(*bars)))
-    print(bars)
-
-    # testsPercentage(bars)
+    testsPercentage(zip(*bars))
 
     # Para el clasificador 2
+    bars = []
+    for strategy in results['classifier2']:
+        percentages = []
+        for classifier in results['classifier2'][strategy]:
+            percentages.append(results['classifier2'][strategy][classifier])
 
-    # for strategy in results['classifier2']:
-    #     percentages = []
-    #     for classifier in results['classifier2'][strategy]:
-    #         print(classifier)
-    #
-    # testsPercentage(bars)
+        bars.append(percentages)
+
+    testsPercentage(zip(*bars))
 
 
     # Show graphic

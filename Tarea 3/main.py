@@ -41,32 +41,32 @@ def main():
     X_test,  labels_test  = np.array(X_test),  np.array(labels_test)
 
     # Ejecución de las estrategias para el clasificador número 1
-    # classifier1 = {
-    #     'strategy01': c1.strategy01(X_train, labels_train, X_test, labels_test),
-    #     'strategy02': c1.strategy02(X_train, labels_train, X_test, labels_test),
-    #     'strategy03': c1.strategy03(X_train, labels_train, X_test, labels_test),
-    #     'strategy04': c1.strategy04(X_train, labels_train, X_test, labels_test),
-    #     'strategy05': c1.strategy05(X_train, labels_train, X_test, labels_test),
-    # }
-    # print(json.dumps(classifier1, indent=2))
-    #
-    # # Ejecución de las estrategias para el clasificador número 2
-    #
-    # groups = c2.compute_groups() # Objeto que ordena los patches por muestra, para su procesamiento en conjunto
-    # classifier2 = {
-    #     'strategy01': c2.strategy01(X_train, labels_train, X_test, labels_test, groups),
-    #     'strategy02': c2.strategy02(X_train, labels_train, X_test, labels_test, groups),
-    #     'strategy03': c2.strategy03(X_train, labels_train, X_test, labels_test, groups),
-    #     'strategy04': c2.strategy04(X_train, labels_train, X_test, labels_test, groups),
-    #     'strategy05': c2.strategy05(X_train, labels_train, X_test, labels_test, groups)
-    # }
-    # print(json.dumps(classifier2, indent=2))
-    #
-    # # Guardamos los resutlados
-    # saveJson('results',{
-    #     'classifier1': classifier1,
-    #     'classifier2': classifier2
-    # })
+    classifier1 = {
+        'strategy01': c1.strategy01(X_train, labels_train, X_test, labels_test),
+        'strategy02': c1.strategy02(X_train, labels_train, X_test, labels_test),
+        'strategy03': c1.strategy03(X_train, labels_train, X_test, labels_test),
+        'strategy04': c1.strategy04(X_train, labels_train, X_test, labels_test),
+        'strategy05': c1.strategy05(X_train, labels_train, X_test, labels_test),
+    }
+    print(json.dumps(classifier1, indent=2))
+
+    # Ejecución de las estrategias para el clasificador número 2
+
+    groups = c2.compute_groups() # Objeto que ordena los patches por muestra, para su procesamiento en conjunto
+    classifier2 = {
+        'strategy01': c2.strategy01(X_train, labels_train, X_test, labels_test, groups),
+        'strategy02': c2.strategy02(X_train, labels_train, X_test, labels_test, groups),
+        'strategy03': c2.strategy03(X_train, labels_train, X_test, labels_test, groups),
+        'strategy04': c2.strategy04(X_train, labels_train, X_test, labels_test, groups),
+        'strategy05': c2.strategy05(X_train, labels_train, X_test, labels_test, groups)
+    }
+    print(json.dumps(classifier2, indent=2))
+
+    # Guardamos los resutlados
+    saveJson('results',{
+        'classifier1': classifier1,
+        'classifier2': classifier2
+    })
 
     getStatistics()
 

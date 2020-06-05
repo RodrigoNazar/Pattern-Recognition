@@ -58,7 +58,7 @@ def classifier_tests(X_train, labels_train, X_test, labels_test):
         Y_pred = classifier.predict(X_test)
         accuracy = performance(Y_pred, labels_test)
 
-        results[name] = accuracy
+        results[name] = accuracy*100
 
     return results
 
