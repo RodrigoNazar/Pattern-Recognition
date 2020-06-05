@@ -64,6 +64,7 @@ def getStatistics():
         bars.append(percentages)
 
     print(list(zip(*bars)))
+    print(bars)
 
     # testsPercentage(bars)
 
