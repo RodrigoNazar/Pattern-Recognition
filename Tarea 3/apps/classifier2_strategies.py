@@ -1,11 +1,18 @@
 
 import numpy as np
 from pybalu.feature_selection import clean, sfs
-from pybalu.feature_transformation import normalize
-from sklearn.neighbors import KNeighborsClassifier as KNN
+from pybalu.feature_transformation import normalize, pca
 from scipy import stats
 import json
 import os
+
+# Clasificadores
+from sklearn.neural_network import MLPClassifier
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.svm import SVC
+from sklearn.gaussian_process.kernels import RBF
+from sklearn.naive_bayes import GaussianNB
+from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis
 
 from apps.classifier_performance import performance, confusionMatrix
 
@@ -64,6 +71,59 @@ def compute_groups():
 def get_class_by_name(name):
     return int(name.split('_')[0][-1])
 
+def classifier_tests(X_train, labels_train, X_test, labels_test, groups):
+    '''
+    Rutina de comparación entre distintos clasificadores.
+
+    Código inspirado en:
+    https://scikit-learn.org/stable/auto_examples/classification/plot_classifier_comparison.html
+    '''
+
+    names = [
+        "Nearest Neighbors 1",
+        "Nearest Neighbors 3",
+        "Nearest Neighbors 5",
+        "Linear SVM",
+        "RBF SVM",
+        "Neural Net"
+    ]
+
+    classifiers = [
+        KNeighborsClassifier(1),
+        KNeighborsClassifier(3),
+        KNeighborsClassifier(5),
+        SVC(kernel="linear", C=0.025),
+        SVC(gamma=2, C=1),
+        MLPClassifier(alpha=1, max_iter=1000)
+    ]
+
+    results = {}
+
+    # Probamos cada uno de los clasificadores
+    for name, classifier in zip(names, classifiers):
+
+        classifier.fit(X_train, labels_train)
+        # Y_pred = classifier.predict(X_test)
+        # accuracy = performance(Y_pred, labels_test)
+
+
+        correct = 0
+        total = X_test.shape[0]/10
+
+        for sample in groups['test']:
+            patch_data = np.array([])
+            for patch in groups['test'][sample]:
+
+                features = X_test[groups['test'][sample][patch], :].reshape(1, -1)
+                patch_data = np.append(patch_data, classifier.predict(features)[0])
+
+            if get_class_by_name(sample) == stats.mode(patch_data)[0][0]:
+                correct += 1
+
+        results[name] = correct*100/total
+
+    return results
+
 # Estrategias
 
 def strategy01(X_train, labels_train, X_test, labels_test, groups):
@@ -96,26 +156,7 @@ def strategy01(X_train, labels_train, X_test, labels_test, groups):
     X_test = X_test*a + b              # Paso 4: normalizacion
     X_test = X_test[:, s_sfs]          # Paso 5: SFS
 
-    # *** ENTRENAMIENTO CON DATOS DE TRAINING Y PRUEBA CON DATOS DE TESTING ***
-
-    knn = KNN(n_neighbors=3)
-    knn.fit(X_train, labels_train)
-
-    correct = 0
-    total = X_test.shape[0]/10
-
-    for sample in groups['test']:
-        patch_data = np.array([])
-        for patch in groups['test'][sample]:
-
-            features = X_test[groups['test'][sample][patch], :].reshape(1, -1)
-            patch_data = np.append(patch_data, knn.predict(features)[0])
-
-        if get_class_by_name(sample) == stats.mode(patch_data)[0][0]:
-            correct += 1
-
-
-    return correct*100/total
+    return classifier_tests(X_train, labels_train, X_test, labels_test, groups)
 
 
 def strategy02(X_train, labels_train, X_test, labels_test, groups):
@@ -150,24 +191,7 @@ def strategy02(X_train, labels_train, X_test, labels_test, groups):
 
     # *** ENTRENAMIENTO CON DATOS DE TRAINING Y PRUEBA CON DATOS DE TESTING ***
 
-    knn = KNN(n_neighbors=5)
-    knn.fit(X_train, labels_train)
-
-    correct = 0
-    total = X_test.shape[0]/10
-
-    for sample in groups['test']:
-        patch_data = np.array([])
-        for patch in groups['test'][sample]:
-
-            features = X_test[groups['test'][sample][patch], :].reshape(1, -1)
-            patch_data = np.append(patch_data, knn.predict(features)[0])
-
-        if get_class_by_name(sample) == stats.mode(patch_data)[0][0]:
-            correct += 1
-
-
-    return correct*100/total
+    return classifier_tests(X_train, labels_train, X_test, labels_test, groups)
 
 
 def strategy03(X_train, labels_train, X_test, labels_test, groups):
@@ -202,24 +226,7 @@ def strategy03(X_train, labels_train, X_test, labels_test, groups):
 
     # *** ENTRENAMIENTO CON DATOS DE TRAINING Y PRUEBA CON DATOS DE TESTING ***
 
-    knn = KNN(n_neighbors=3)
-    knn.fit(X_train, labels_train)
-
-    correct = 0
-    total = X_test.shape[0]/10
-
-    for sample in groups['test']:
-        patch_data = np.array([])
-        for patch in groups['test'][sample]:
-
-            features = X_test[groups['test'][sample][patch], :].reshape(1, -1)
-            patch_data = np.append(patch_data, knn.predict(features)[0])
-
-        if get_class_by_name(sample) == stats.mode(patch_data)[0][0]:
-            correct += 1
-
-
-    return correct*100/total
+    return classifier_tests(X_train, labels_train, X_test, labels_test, groups)
 
 
 def strategy04(X_train, labels_train, X_test, labels_test, groups):
@@ -254,24 +261,7 @@ def strategy04(X_train, labels_train, X_test, labels_test, groups):
 
     # *** ENTRENAMIENTO CON DATOS DE TRAINING Y PRUEBA CON DATOS DE TESTING ***
 
-    knn = KNN(n_neighbors=5)
-    knn.fit(X_train, labels_train)
-
-    correct = 0
-    total = X_test.shape[0]/10
-
-    for sample in groups['test']:
-        patch_data = np.array([])
-        for patch in groups['test'][sample]:
-
-            features = X_test[groups['test'][sample][patch], :].reshape(1, -1)
-            patch_data = np.append(patch_data, knn.predict(features)[0])
-
-        if get_class_by_name(sample) == stats.mode(patch_data)[0][0]:
-            correct += 1
-
-
-    return correct*100/total
+    return classifier_tests(X_train, labels_train, X_test, labels_test, groups)
 
 
 def strategy05(X_train, labels_train, X_test, labels_test, groups):
@@ -306,21 +296,4 @@ def strategy05(X_train, labels_train, X_test, labels_test, groups):
 
     # *** ENTRENAMIENTO CON DATOS DE TRAINING Y PRUEBA CON DATOS DE TESTING ***
 
-    knn = KNN(n_neighbors=5)
-    knn.fit(X_train, labels_train)
-
-    correct = 0
-    total = X_test.shape[0]/10
-
-    for sample in groups['test']:
-        patch_data = np.array([])
-        for patch in groups['test'][sample]:
-
-            features = X_test[groups['test'][sample][patch], :].reshape(1, -1)
-            patch_data = np.append(patch_data, knn.predict(features)[0])
-
-        if get_class_by_name(sample) == stats.mode(patch_data)[0][0]:
-            correct += 1
-
-
-    return correct*100/total
+    return classifier_tests(X_train, labels_train, X_test, labels_test, groups)
