@@ -89,8 +89,8 @@ def strategy01(X_train, labels_train, X_test, labels_test):
     X_train = X_train[:, s_sfs]
 
     # Paso 4: PCA
-    #         > Training: 5040 x 10
-    X_train, _, A, Xm, _ = pca(X_train, n_components=10)
+    #         > Training: 5040 x 50
+    X_train, _, A, Xm, _ = pca(X_train, n_components=50)
 
 
     # *** DEFINCION DE DATOS PARA EL TESTING ***

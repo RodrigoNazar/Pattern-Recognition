@@ -166,28 +166,32 @@ def strategy02(X_train, labels_train, X_test, labels_test, groups):
 
     print('\nEjecutando la estrategia número 2 del segundo clasificador...')
 
-    # Paso 3: Cleaning de los datos
-    #   > Training: 8000 x 250
+    # *** DEFINCION DE DATOS PARA EL TRAINING ***
+
+    # Paso 1: Clean
+    #         > Training: 5040 x 82
     s_clean = clean(X_train)
     X_train = X_train[:, s_clean]
 
+    # Paso 2: PCA de 70 componentes
+    #         > Training: 5040 x 70
+    X_train, _, A, Xm, _ = pca(X_train, n_components=70)
 
-    # Paso 4: Normalización Mean-Std de los datos
+    # Paso 3: Normalizacion
+    #         > Training: 5040 x 70
     X_train, a, b = normalize(X_train)
 
-
-    # Paso 5: Selección de características
-    # Acá se utilizó el criterio de fisher
-    #   > Training: 8000 x 50
-    s_sfs = sfs(X_train, labels_train, n_features=10, method="fisher")
+    # Paso 4: SFS
+    #         > Training: 5040 x 20
+    s_sfs = sfs(X_train, labels_train, n_features=20, method="fisher")
     X_train = X_train[:, s_sfs]
 
 
     # *** DEFINCION DE DATOS PARA EL TESTING ***
-
-    X_test = X_test[:, s_clean]        # Paso 3: clean
-    X_test = X_test*a + b              # Paso 4: normalizacion
-    X_test = X_test[:, s_sfs]          # Paso 5: SFS
+    X_test = X_test[:, s_clean]        # Paso 1: Clean
+    X_test = np.matmul(X_test - Xm, A) # Paso 2: PCA
+    X_test = X_test*a + b              # Paso 3: Normalizacion
+    X_test = X_test[:, s_sfs]          # Paso 4: SFS
 
     # *** ENTRENAMIENTO CON DATOS DE TRAINING Y PRUEBA CON DATOS DE TESTING ***
 
@@ -201,28 +205,41 @@ def strategy03(X_train, labels_train, X_test, labels_test, groups):
 
     print('\nEjecutando la estrategia número 3 del segundo clasificador...')
 
-    # Paso 3: Cleaning de los datos
-    #   > Training: 8000 x 250
+    # *** DEFINCION DE DATOS PARA EL TRAINING ***
+
+    # Paso 1: Clean
+    #         > Training: 5040 x 82
     s_clean = clean(X_train)
     X_train = X_train[:, s_clean]
 
-
-    # Paso 4: Normalización Mean-Std de los datos
+    # Paso 2: Normalizacion
+    #         > Training: 5040 x 82
     X_train, a, b = normalize(X_train)
 
-
-    # Paso 5: Selección de características
-    # Acá se utilizó el criterio de fisher
-    #   > Training: 8000 x 50
-    s_sfs = sfs(X_train, labels_train, n_features=3, method="fisher")
+    # Paso 3: SFS
+    #         > Training: 5040 x 80
+    s_sfs = sfs(X_train,labels_train,n_features=80,method="fisher")
     X_train = X_train[:, s_sfs]
+
+
+    # Paso 4: PCA
+    #         > Training: 5040 x 20
+    X_train, _, A, Xm, _ = pca(X_train, n_components=20)
+
+
+    # Paso 5: SFS
+    #	      > Training: 5040 x 15
+    s_sfs2 = sfs(X_train,labels_train,n_features=15,method="fisher")
+    X_train = X_train[:, s_sfs2]
 
 
     # *** DEFINCION DE DATOS PARA EL TESTING ***
 
-    X_test = X_test[:, s_clean]        # Paso 3: clean
-    X_test = X_test*a + b              # Paso 4: normalizacion
-    X_test = X_test[:, s_sfs]          # Paso 5: SFS
+    X_test = X_test[:, s_clean]        # Paso 1: Clean
+    X_test = X_test*a + b              # Paso 2: Normalizacion
+    X_test = X_test[:, s_sfs]          # Paso 3: SFS
+    X_test = np.matmul(X_test - Xm, A) # Paso 4: PCA
+    X_test = X_test[:, s_sfs2]         # Paso 5: SFS
 
     # *** ENTRENAMIENTO CON DATOS DE TRAINING Y PRUEBA CON DATOS DE TESTING ***
 
@@ -236,19 +253,21 @@ def strategy04(X_train, labels_train, X_test, labels_test, groups):
 
     print('\nEjecutando la estrategia número 4 del segundo clasificador...')
 
-    # Paso 3: Cleaning de los datos
-    #   > Training: 8000 x 250
+    # *** DEFINCION DE DATOS PARA EL TRAINING ***
+
+    # Paso 1: Cleaning de los datos
+    #   > Training: 5040 x 82
     s_clean = clean(X_train)
     X_train = X_train[:, s_clean]
 
 
-    # Paso 4: Normalización Mean-Std de los datos
+    # Paso 2: Normalización Mean-Std de los datos
     X_train, a, b = normalize(X_train)
 
 
-    # Paso 5: Selección de características
+    # Paso 3: Selección de características
     # Acá se utilizó el criterio de fisher
-    #   > Training: 8000 x 50
+    #   > Training: 5040 x 26
     s_sfs = sfs(X_train, labels_train, n_features=26, method="fisher")
     X_train = X_train[:, s_sfs]
 
@@ -271,28 +290,48 @@ def strategy05(X_train, labels_train, X_test, labels_test, groups):
 
     print('\nEjecutando la estrategia número 5 del segundo clasificador...')
 
-    # Paso 3: Cleaning de los datos
-    #   > Training: 8000 x 250
+    # *** DEFINCION DE DATOS PARA EL TRAINING ***
+
+    # Paso 1: Clean
+    #         > Training: 5040 x 82
     s_clean = clean(X_train)
     X_train = X_train[:, s_clean]
 
+    # Paso 2: PCA
+    #         > Training: 5040 x 82
+    X_train, _, A1, Xm1, _ = pca(X_train, n_components=X_train.shape[1])
 
-    # Paso 4: Normalización Mean-Std de los datos
+    # Paso 3: Normalizacion
+    #         > Training: 5040 x 82
     X_train, a, b = normalize(X_train)
 
-
-    # Paso 5: Selección de características
-    # Acá se utilizó el criterio de fisher
-    #   > Training: 8000 x 50
-    s_sfs = sfs(X_train, labels_train, n_features=7, method="fisher")
+    # Paso 4: SFS
+    #         > Training: 5040 x 80
+    s_sfs = sfs(X_train,labels_train,n_features=80,method="fisher")
     X_train = X_train[:, s_sfs]
+    X_train_sfs80 = X_train.copy()
+
+    # Paso 5: PCA
+    #         > Training: 5040 x 10
+    X_train, _, A2, Xm2, _ = pca(X_train, n_components=10)
+
+    #Paso 6: SFS
+    #	> Trainning: 5040 x 20
+    X_train = np.concatenate((X_train, X_train_sfs80), axis=1)
+    s_sfs2 = sfs(X_train, labels_train, n_features=20, method="fisher")
+    X_train = X_train[:, s_sfs2]
 
 
     # *** DEFINCION DE DATOS PARA EL TESTING ***
 
-    X_test = X_test[:, s_clean]        # Paso 3: clean
-    X_test = X_test*a + b              # Paso 4: normalizacion
-    X_test = X_test[:, s_sfs]          # Paso 5: SFS
+    X_test = X_test[:, s_clean]                             # Paso 1: clean
+    X_test = np.matmul(X_test - Xm1, A1)                    # Paso 2: PCA
+    X_test = X_test*a + b                                   # Paso 3: normalizacion
+    X_test = X_test[:, s_sfs]                               # Paso 4: SFS
+    X_test_sfs80 = X_test.copy()
+    X_test = np.matmul(X_test - Xm2, A2)                    # Paso 5: PCA
+    X_test = np.concatenate((X_test, X_test_sfs80), axis=1)
+    X_test = X_test[:, s_sfs2]                              # Paso 6: SFS
 
     # *** ENTRENAMIENTO CON DATOS DE TRAINING Y PRUEBA CON DATOS DE TESTING ***
 
