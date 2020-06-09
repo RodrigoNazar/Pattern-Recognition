@@ -26,6 +26,11 @@ def main():
     https://github.com/domingomery/patrones/blob/master/clases/Cap03_Seleccion_de_Caracteristicas/presentations/PAT03_GeneralSchema.pdf
     '''
 
+    # Variables que controlan el flujo
+
+    GUARDAR_RESULTADOS = True
+    RODRIGO_SE_SACARA_UN_SIETE = True
+
     # Paso 1: Extracción de características
     #   > 357 características por imagen
     features = FeatureExtractor(classes=CLASSES)
@@ -50,6 +55,7 @@ def main():
     }
     print(json.dumps(classifier1, indent=2))
 
+
     # Ejecución de las estrategias para el clasificador número 2
 
     groups = c2.compute_groups() # Objeto que ordena los patches por muestra, para su procesamiento en conjunto
@@ -62,13 +68,14 @@ def main():
     }
     print(json.dumps(classifier2, indent=2))
 
-    # Guardamos los resutlados
-    saveJson('results',{
-        'classifier1': classifier1,
-        'classifier2': classifier2
-    })
+    if GUARDAR_RESULTADOS:
+        # Guardamos los resutlados
+        saveJson('results',{
+            'classifier1': classifier1,
+            'classifier2': classifier2
+        })
 
-    getStatistics()
+    getStatistics(X_train, labels_train, X_test, labels_test, groups)
 
 
 if __name__ == '__main__':

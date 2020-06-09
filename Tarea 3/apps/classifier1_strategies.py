@@ -47,7 +47,7 @@ def classifier_tests(X_train, labels_train, X_test, labels_test):
         KNeighborsClassifier(5),
         SVC(kernel="linear", C=0.025),
         SVC(gamma=2, C=1),
-        MLPClassifier(alpha=1, max_iter=1000)
+        MLPClassifier(alpha=1, max_iter=1000, random_state=2)
     ]
 
     results = {}
@@ -171,7 +171,7 @@ def strategy03(X_train, labels_train, X_test, labels_test):
 
     # Paso 5: SFS
     #	      > Training: 5040 x 15
-    s_sfs2 = sfs(X_train,labels_train,n_features=15,method="fisher")
+    s_sfs2 = sfs(X_train, labels_train, n_features=15, method="fisher")
     X_train = X_train[:, s_sfs2]
 
 
@@ -272,3 +272,56 @@ def strategy05(X_train, labels_train, X_test, labels_test):
     X_test = X_test[:, s_sfs2]                              # Paso 6: SFS
 
     return classifier_tests(X_train, labels_train, X_test, labels_test)
+
+
+
+def WinnerStrategy(X_train, labels_train, X_test, labels_test):
+    '''
+    Estrategia Número 1 con redes neuronales,
+    Reescrita para poder obtener estadísticas
+    '''
+
+    # *** DEFINCION DE DATOS PARA EL TRAINING ***
+
+    # Paso 1: Cleaning de los datos
+    #   > Training: 5040 x 82
+    s_clean = clean(X_train)
+    X_train = X_train[:, s_clean]
+
+    # Paso 2: Normalización Mean-Std de los datos
+    X_train, a, b = normalize(X_train)
+
+
+    # Paso 3: Selección de características
+    # Acá se utilizó el criterio de fisher
+    #   > Training: 5040 x 50
+    s_sfs = sfs(X_train, labels_train, n_features=50, method="fisher")
+    X_train = X_train[:, s_sfs]
+
+    # Paso 4: PCA
+    #         > Training: 5040 x 50
+    X_train, _, A, Xm, _ = pca(X_train, n_components=50)
+
+
+    # *** DEFINCION DE DATOS PARA EL TESTING ***
+
+    X_test = X_test[:, s_clean]        # Paso 1: Clean
+    X_test = X_test*a + b              # Paso 2: Normalizacion
+    X_test = X_test[:, s_sfs]          # Paso 3: SFS
+    X_test = np.matmul(X_test - Xm, A) # Paso 4: PCA
+
+    classifier = MLPClassifier(alpha=1, max_iter=1000, random_state=2)
+
+    results = {}
+
+    # Clasificamos las muestras de Testing
+    classifier.fit(X_train, labels_train)
+    Y_pred = classifier.predict(X_test)
+    accuracy = performance(Y_pred, labels_test)
+
+
+    results['Accuracy'] = accuracy*100
+    results['Y_pred'] = Y_pred
+    results['labels_test'] = labels_test
+
+    return results

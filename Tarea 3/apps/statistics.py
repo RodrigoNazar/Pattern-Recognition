@@ -2,6 +2,24 @@ import json
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
+from sklearn.metrics import confusion_matrix
+import seaborn as sn
+
+import apps.classifier1_strategies as c1
+import apps.classifier2_strategies as c2
+
+
+def confusionMatrix(Y_pred, labels_test):
+    '''
+    Función basada en la solución mostrada en:
+    https://stackoverflow.com/questions/35572000/how-can-i-plot-a-confusion-matrix
+    '''
+    df_cm = pd.DataFrame(confusion_matrix(Y_pred, labels_test), ['Normal', 'Neumonia', 'COVID19'], ['Normal', 'Neumonia', 'COVID19'])
+    plt.figure(figsize=(10,7))
+    sn.set(font_scale=1.4)
+    sn.heatmap(df_cm, annot=True, annot_kws={'size': 20}, cmap='YlGnBu', fmt='g')
+    plt.xlabel('Valores predecidos')
+    plt.ylabel('Valores reales')
 
 
 def testsPercentage(bars):
@@ -39,12 +57,13 @@ def testsPercentage(bars):
     plt.legend()
 
 
-def getStatistics():
-    print('\n3) Obteniendo las estadísticas de las pruebas...')
+def getStatistics(X_train, labels_train, X_test, labels_test, groups):
+    print('\nObteniendo las estadísticas de las pruebas...')
 
     with open('data/results.json', 'r') as file:
         results = json.loads(file.read())
 
+    ## Ilustramos los porcentajes de cada prueba
     bars1 = [1 for _ in range(5)]
     bars2 = [2 for _ in range(5)]
     bars3 = [3 for _ in range(5)]
@@ -62,7 +81,6 @@ def getStatistics():
             percentages.append(results['classifier1'][strategy][classifier])
 
         bars.append(percentages)
-
     testsPercentage(zip(*bars))
 
     # Para el clasificador 2
@@ -73,9 +91,16 @@ def getStatistics():
             percentages.append(results['classifier2'][strategy][classifier])
 
         bars.append(percentages)
-
     testsPercentage(zip(*bars))
 
+
+    # Matriz de Confusión
+
+    clas1 = c1.WinnerStrategy(X_train, labels_train, X_test, labels_test)
+    confusionMatrix(clas1['Y_pred'], clas1['labels_test'])
+
+    clas2 = c2.WinnerStrategy(X_train, labels_train, X_test, labels_test, groups)
+    confusionMatrix(clas2['Y_pred'], clas2['labels_test'])
 
     # Show graphic
     plt.show()
@@ -84,6 +109,3 @@ def getStatistics():
 
 if __name__ == '__main__':
     print('Statistics module')
-    huHistograms(['phi1', 'phi2', 'phi3'])
-    huScatter(['phi1', 'phi2', 'phi3'])
-    plt.show()

@@ -94,7 +94,7 @@ def classifier_tests(X_train, labels_train, X_test, labels_test, groups):
         KNeighborsClassifier(5),
         SVC(kernel="linear", C=0.025),
         SVC(gamma=2, C=1),
-        MLPClassifier(alpha=1, max_iter=1000)
+        MLPClassifier(alpha=1, max_iter=1000, random_state=2)
     ]
 
     results = {}
@@ -103,9 +103,6 @@ def classifier_tests(X_train, labels_train, X_test, labels_test, groups):
     for name, classifier in zip(names, classifiers):
 
         classifier.fit(X_train, labels_train)
-        # Y_pred = classifier.predict(X_test)
-        # accuracy = performance(Y_pred, labels_test)
-
 
         correct = 0
         total = X_test.shape[0]/10
@@ -336,3 +333,61 @@ def strategy05(X_train, labels_train, X_test, labels_test, groups):
     # *** ENTRENAMIENTO CON DATOS DE TRAINING Y PRUEBA CON DATOS DE TESTING ***
 
     return classifier_tests(X_train, labels_train, X_test, labels_test, groups)
+
+
+def WinnerStrategy(X_train, labels_train, X_test, labels_test, groups):
+    '''
+    Estrategia Número 1 con redes neuronales,
+    Reescrita para poder obtener estadísticas
+    '''
+    
+    # Paso 3: Cleaning de los datos
+    #   > Training: 8000 x 250
+    s_clean = clean(X_train)
+    X_train = X_train[:, s_clean]
+
+
+    # Paso 4: Normalización Mean-Std de los datos
+    X_train, a, b = normalize(X_train)
+
+
+    # Paso 5: Selección de características
+    # Acá se utilizó el criterio de fisher
+    #   > Training: 8000 x 50
+    s_sfs = sfs(X_train, labels_train, n_features=50, method="fisher")
+    X_train = X_train[:, s_sfs]
+
+
+    # *** DEFINCION DE DATOS PARA EL TESTING ***
+
+    X_test = X_test[:, s_clean]        # Paso 3: clean
+    X_test = X_test*a + b              # Paso 4: normalizacion
+    X_test = X_test[:, s_sfs]          # Paso 5: SFS
+
+    classifier = MLPClassifier(alpha=1, max_iter=1000, random_state=2)
+
+    results = {}
+
+    Y_pred = np.array([])
+    labels_test = np.array([])
+
+    # Probamos con los valores de testing
+    classifier.fit(X_train, labels_train)
+
+    for sample in groups['test']:
+        patch_data = np.array([])
+        for patch in groups['test'][sample]:
+
+            features = X_test[groups['test'][sample][patch], :].reshape(1, -1)
+            patch_data = np.append(patch_data, classifier.predict(features)[0])
+
+        # Clase clasificada
+        Y_pred = np.append(Y_pred, stats.mode(patch_data)[0][0])
+
+        labels_test = np.append(labels_test, get_class_by_name(sample))
+
+    results['Accuracy'] = performance(Y_pred, labels_test)*100
+    results['Y_pred'] = Y_pred
+    results['labels_test'] = labels_test
+
+    return results

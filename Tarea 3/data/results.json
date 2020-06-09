@@ -6,7 +6,7 @@
       "Nearest Neighbors 5": 87.93650793650794,
       "Linear SVM": 93.17460317460318,
       "RBF SVM": 33.80952380952381,
-      "Neural Net": 94.28571428571428
+      "Neural Net": 94.76190476190476
     },
     "strategy02": {
       "Nearest Neighbors 1": 81.42857142857143,
@@ -14,7 +14,7 @@
       "Nearest Neighbors 5": 81.19047619047619,
       "Linear SVM": 91.26984126984127,
       "RBF SVM": 54.047619047619044,
-      "Neural Net": 92.6984126984127
+      "Neural Net": 92.93650793650794
     },
     "strategy03": {
       "Nearest Neighbors 1": 86.11111111111111,
@@ -22,7 +22,7 @@
       "Nearest Neighbors 5": 87.85714285714286,
       "Linear SVM": 91.98412698412697,
       "RBF SVM": 34.84126984126984,
-      "Neural Net": 93.17460317460318
+      "Neural Net": 93.33333333333333
     },
     "strategy04": {
       "Nearest Neighbors 1": 86.74603174603175,
@@ -30,7 +30,7 @@
       "Nearest Neighbors 5": 90.0,
       "Linear SVM": 92.38095238095238,
       "RBF SVM": 34.36507936507937,
-      "Neural Net": 92.85714285714286
+      "Neural Net": 93.80952380952381
     },
     "strategy05": {
       "Nearest Neighbors 1": 81.42857142857143,
@@ -38,7 +38,7 @@
       "Nearest Neighbors 5": 81.19047619047619,
       "Linear SVM": 91.26984126984127,
       "RBF SVM": 54.047619047619044,
-      "Neural Net": 93.01587301587301
+      "Neural Net": 92.93650793650794
     }
   },
   "classifier2": {
@@ -56,7 +56,7 @@
       "Nearest Neighbors 5": 86.5079365079365,
       "Linear SVM": 91.26984126984127,
       "RBF SVM": 58.73015873015873,
-      "Neural Net": 94.44444444444444
+      "Neural Net": 93.65079365079364
     },
     "strategy03": {
       "Nearest Neighbors 1": 89.68253968253968,
@@ -64,7 +64,7 @@
       "Nearest Neighbors 5": 90.47619047619048,
       "Linear SVM": 92.85714285714286,
       "RBF SVM": 34.12698412698413,
-      "Neural Net": 95.23809523809524
+      "Neural Net": 96.03174603174604
     },
     "strategy04": {
       "Nearest Neighbors 1": 93.65079365079364,
@@ -72,7 +72,7 @@
       "Nearest Neighbors 5": 96.82539682539682,
       "Linear SVM": 96.82539682539682,
       "RBF SVM": 34.12698412698413,
-      "Neural Net": 96.03174603174604
+      "Neural Net": 96.82539682539682
     },
     "strategy05": {
       "Nearest Neighbors 1": 87.3015873015873,
@@ -80,7 +80,7 @@
       "Nearest Neighbors 5": 86.5079365079365,
       "Linear SVM": 91.26984126984127,
       "RBF SVM": 58.73015873015873,
-      "Neural Net": 94.44444444444444
+      "Neural Net": 93.65079365079364
     }
   }
 }
