@@ -1,6 +1,6 @@
-# Tarea 02: Reconocedor de Paredes Rayadas
+# Tarea 03: Reconocedor de COVID-19
 
-Esta tarea consiste en desarrollar un reconocedor automático de paredes rayadas usando características de texturas, un seleccionador de características y knn.
+Esta tarea consiste en desarrollar un reconocedor automático de pacientes con COVID19 y neumonia usando características de texturas, variadas estrategias de manejo de la información y distintos clasificadores.
 
 ## Empezando
 
@@ -68,36 +68,23 @@ python main.py
 
 Para ejecutar el código de main de la tarea.
 
-## Corriendo e importando el reconocedor
-
-En el enunciado de la tarea se pide implementar una función ```reconocedor.py``` con una función ```reconocedor``` dentro.
-
-Para importar esta función en un módulo aparte (como me imagino que corregirán), es necesario hacer todos los pasos anteriores, para que las rutas entre módulos estén bien definidas y no haya errores del tipo "Cannot import module..."
-
-Entonces se debe copiar el archivo ```.py``` con el que se testeará la función ```reconocedor.py``` en el directorio ```T1-Patrones``` y desde ese módulo importar el reconocedor como:
-
-```
-from reconocedor import reconocedor
-```
-
-Así, se podrá usar la función de correcta manera
-
 ### Módulos y Directorios
 
 * ```apps```: Se encuentran las distintas aplicaciones desarrolladas para cada uno de los requerimientos de la tarea.
 
   * ```feature_extraction.py```: Procesa las imágenes de la ruta ```img``` y obtiene sus características (tanto como de training, como testing), para guardarlas en ```data```.
 
-  * ```feature_selection.py```: Contiene el código del algoritmo SFS para la selección de características.
+  * ```classifier1_strategies.py```: Contiene las distintas estrategias del clasificador de patches.
 
-  * ```classifier_performance.py```: Módulo que muestra estadísticas de desempeño del clasificador utilizado.
+  * ```classifier2_strategies.py```: Contiene las distintas estrategias del clasificador de pacientes.
+
+  * ```statistics.py```: Módulo que muestra estadísticas de desempeño de los clasificadores utilizado.
 
 * ```data```: Directorio en el que se guardan datos del programa, para no tener que calcularlos todo el tiempo.
-  * ```paredes_data.json```: Características de los datos de testing y training.
 
-  * ```sfs_cache.json```: Datos de las características seleccionadas por sfs.
+  * ```patches_data.json```: Características de los datos de testing y training.
 
-  * ```reconocedor.json```: Datos para el módulo ```reconocedor.py```.
+  * ```results.json```: Resultados de los distintos tests.
 
 * ```img```: Directorio en el que se encuentran las imágenes.
 
